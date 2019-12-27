@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "target": "ES2019",
+    "module": "commonjs",
+    "outDir": "build",
+    "rootDir": "src",
+    "removeComments": true,
+    "experimentalDecorators": true,
+    "sourceMap": true
+  },
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
