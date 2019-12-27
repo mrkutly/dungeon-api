@@ -1,53 +1,13 @@
 {
   "name": "dungeon-api",
   "version": "1.0.0",
-  "description": "API for D&D Character Management app",
+  "description": "API for D&D Characer Management",
+  "main": "build/server.js",
   "repository": "https://github.com/mrkutly/dungeon-api",
   "author": "mark sauer-utley <mark.utley.713@gmail.com>",
   "license": "MIT",
-  "private": false,
-  "main": "build/index.js",
-  "scripts": {
-    "build": "tsc",
-    "start": "node -r ./tsconfig-paths-bootstrap.js .",
-    "start:dev": "node -r dotenv/config -r tsconfig-paths/register -r ts-node/register ./src/index.ts",
-    "dev": "nodemon",
-    "test:lint": "eslint --ext .ts ./src",
-    "test": "jest"
-  },
-  "nodemonConfig": {
-    "ignore": [
-      "**/*.spec.ts",
-      ".git",
-      "node_modules"
-    ],
-    "watch": [
-      "src"
-    ],
-    "exec": "npm run start:dev",
-    "ext": "ts"
-  },
   "dependencies": {
-    "body-parser": "^1.19.0",
-    "express": "^4.17.1"
-  },
-  "devDependencies": {
-    "jest": "^24.9.0",
-    "@types/body-parser": "^1.17.1",
-    "@types/dotenv": "^8.2.0",
-    "@types/express": "^4.17.2",
-    "@types/supertest": "^2.0.8",
-    "@typescript-eslint/eslint-plugin": "^2.13.0",
-    "@typescript-eslint/parser": "^2.13.0",
-    "dotenv": "^8.2.0",
-    "eslint": "^6.8.0",
-    "eslint-config-prettier": "^6.9.0",
-    "eslint-plugin-prettier": "^3.1.2",
-    "nodemon": "^2.0.2",
-    "prettier": "^1.19.1",
-    "supertest": "^4.0.2",
-    "ts-node": "^8.5.4",
-    "tsconfig-paths": "^3.9.0",
+    "express": "^4.17.1",
     "typescript": "^3.7.4"
   }
 }
