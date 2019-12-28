@@ -2,8 +2,12 @@ version: "3.3"
 services:
   db:
     image: "postgres:12.1-alpine"
+    container_name: dungeondbdev
     restart: "always"
     ports: 
       - "5432:5432"
     volumes: 
-      - dungeon-db-dev/var/lib/postgres
+      - dungeondbdev:/var/lib/postgres/data
+
+volumes:
+  dungeondbdev:

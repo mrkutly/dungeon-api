@@ -8,7 +8,12 @@
   "license": "MIT",
   "scripts": {
     "build": "tsc",
-    "db:start": "docker-compose up -d",
+    "db:start-container": "docker-compose up -d",
+    "db:create": "docker exec -it dungeondbdev psql -U postgres -c \"create database dungeondbdev\"",
+    "db:migrate": "knex --knexfile src/db/knexfile.ts migrate:latest",
+    "db:migrate:make": "knex --knexfile src/db/knexfile.ts migrate:make -x ts",
+    "db:migrate:up": "knex --knexfile src/db/knexfile.ts migrate:up",
+    "db:migrate:down": "knex --knexfile src/db/knexfile.ts migrate:down",
     "dev": "nodemon",
     "dev:watch": "node --inspect=5858 -r ts-node/register ./src/server.ts",
     "postinstall": "npm run build",
@@ -16,14 +21,16 @@
     "test": "jest"
   },
   "dependencies": {
-    "@types/pg": "^7.14.0",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "knex": "^0.20.4",
     "pg": "^7.16.0",
     "typescript": "^3.7.4"
   },
   "devDependencies": {
     "@types/express": "^4.17.2",
     "@types/node": "^13.1.1",
+    "@types/pg": "^7.14.0",
     "@typescript-eslint/eslint-plugin": "^2.13.0",
     "@typescript-eslint/parser": "^2.13.0",
     "eslint": "^6.8.0",

@@ -1,12 +1,6 @@
-import { Client } from 'pg';
-import { databaseUrl } from '../config';
+import knexConfig from './knexfile';
+import knex from 'knex';
 
-const ssl = process.env.NODE_ENV === 'production';
+const environment = process.env.NODE_ENV || 'development';
 
-const client = new Client({
-  connectionString: databaseUrl,
-  ssl
-});
-
-client.connect();
-
+export default knex(knexConfig[environment]);
