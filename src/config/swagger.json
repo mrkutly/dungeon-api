@@ -3,7 +3,7 @@
   "info": {
     "version": "1.0.0"
   },
-  "host": "localhost:3000",
+  "host": "https://dungeon-api-staging.herokuapp.com/",
   "basePath": "/api/v1",
   "schemes": [
     "http"
