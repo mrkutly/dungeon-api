@@ -14,7 +14,7 @@ export class User {
   password!: string;
 
   @OneToMany((type) => Character, (character) => character.user)
-  characters: Character[] = [];
+  characters: Character[];
 
   @CreateDateColumn()
   created_at!: string;
