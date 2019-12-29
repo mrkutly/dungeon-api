@@ -6,7 +6,7 @@
   "host": "dungeon-api-staging.herokuapp.com",
   "basePath": "/api/v1",
   "schemes": [
-    "http"
+    "https"
   ],
   "produces": [
     "application/json"
