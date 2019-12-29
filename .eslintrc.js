@@ -16,5 +16,6 @@ module.exports = {
         sourceType: "module"
     },
     rules: {
+        "max-len": [2, 100, 2, { ignoreUrls: true }]
     }
 };

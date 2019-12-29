@@ -1,6 +1,5 @@
 {
   "debug.node.autoAttach": "on",
-  "eslint.autoFixOnSave": true,
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
   },

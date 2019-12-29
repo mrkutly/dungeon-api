@@ -1,5 +1,6 @@
 import http from "http";
 import express from "express";
+import { createConnection } from 'typeorm';
 import { applyMiddleware, applyRoutes } from './utils';
 import Logger from './utils/Logger';
 import middleware from './middleware';
@@ -22,8 +23,14 @@ applyRoutes(routes, router);
 applyMiddleware(errorHandlers, router);
 
 const { PORT = 3000 } = process.env;
-const server = http.createServer(router);
 
-server.listen(PORT, () =>
-  Logger.info(`Server is running on port ${PORT}...`)
-);
+async function startServer(): Promise<void> {
+  await createConnection();
+
+  const server = http.createServer(router);
+  server.listen(PORT, () =>
+    Logger.info(`Server is running on port ${PORT}...`)
+  );
+}
+
+startServer();

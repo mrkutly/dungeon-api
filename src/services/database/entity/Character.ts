@@ -1,8 +1,17 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToOne } from 'typeorm';
+import {
+  Entity,
+  BaseEntity,
+  Column,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+  ManyToOne
+} from 'typeorm';
+
 import { User } from './User';
 
 @Entity()
-export class Character {
+export class Character extends BaseEntity {
 
   @PrimaryGeneratedColumn()
   id!: number;
@@ -10,7 +19,7 @@ export class Character {
   @Column()
   name!: string;
 
-  @ManyToOne((type) => User, (user) => user.characters)
+  @ManyToOne(() => User, (user) => user.characters)
   user!: User;
 
   @CreateDateColumn()

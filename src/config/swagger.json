@@ -3,7 +3,7 @@
   "info": {
     "version": "1.0.0"
   },
-  "host": "https://dungeon-api.herokuapp.com",
+  "host": "localhost:3000",
   "basePath": "/api/v1",
   "schemes": [
     "http"
@@ -46,6 +46,69 @@
                   "type": "string"
                 }
               }
+            }
+          }
+        ]
+      }
+    },
+    "/login": {
+      "post": {
+        "tags": [
+          "Login"
+        ],
+        "summary": "Log into user account",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        },
+        "parameters": [
+          {
+            "in": "body",
+            "name": "User",
+            "description": "The user account to authenticate",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "email",
+                "password"
+              ],
+              "properties": {
+                "email": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    "/characters": {
+      "get": {
+        "summary": "Log into user account",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        },
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "JSON web token returned from a login or signup request",
+            "schema": {
+              "type": "string",
+              "required": true
             }
           }
         ]
