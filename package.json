@@ -6,6 +6,9 @@
   "repository": "https://github.com/mrkutly/dungeon-api",
   "author": "mark sauer-utley <mark.utley.713@gmail.com>",
   "license": "MIT",
+  "engines": {
+    "node": "12.x"
+  },
   "scripts": {
     "db:create": "docker exec -it dungeondbdev psql -U postgres -c \"create database dungeondbdev\"",
     "db:drop": "docker exec -it dungeondbdev psql -U postgres -c \"drop database dungeondbdev\"",
