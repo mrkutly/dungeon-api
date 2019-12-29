@@ -15,7 +15,7 @@
     "db:start": "docker-compose up -d",
     "db:sync": "npx tsc && npx typeorm schema:sync",
     "dev": "tsc-watch --onSuccess \"node ./dist/server.js\"",
-    "start": "npx pm2 start pm2.yml",
+    "start": "node dist/server.js",
     "postinstall": "npx tsc"
   },
   "dependencies": {
