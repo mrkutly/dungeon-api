@@ -16,7 +16,7 @@
     "db:sync": "npx tsc && npx typeorm schema:sync",
     "dev": "tsc-watch --onSuccess \"node ./dist/server.js\"",
     "start": "npx pm2-runtime start pm2.yml",
-    "postinstall": "npx tsc"
+    "postinstall": "npm run db:sync"
   },
   "dependencies": {
     "@types/compression": "^1.0.1",
