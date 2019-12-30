@@ -1,7 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { HTTP400Error } from "../utils/httpErrors";
-import { User } from '../services/user/entity';
-import Logger from "../utils/Logger";
+import User from '../services/user/entity';
 
 export const checkUserParams = (
   req: Request,

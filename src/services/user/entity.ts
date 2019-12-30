@@ -15,7 +15,7 @@ import { randomBytes } from 'crypto';
 import { getConnection } from 'typeorm';
 
 import * as TokenManager from '../../utils/TokenManager';
-import { Character } from '../character/entity';
+import Character from '../character/entity';
 
 type ResetTokenResult = {
   affected: number;
@@ -23,7 +23,7 @@ type ResetTokenResult = {
 };
 
 @Entity()
-export class User extends BaseEntity {
+class User extends BaseEntity {
 
   @PrimaryGeneratedColumn()
   id!: number;
@@ -83,3 +83,5 @@ export class User extends BaseEntity {
     return { affected: affected as number, resetToken: reset_token };
   }
 }
+
+export default User;

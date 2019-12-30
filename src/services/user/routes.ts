@@ -7,7 +7,7 @@ import {
 	checkResetRequestParams,
 	checkPasswordResetToken
 } from '../../middleware/checks';
-import { User } from './entity';
+import User from './entity';
 import * as TokenManager from '../../utils/TokenManager';
 import * as Mailer from '../../utils/Mailer';
 import Logger from '../../utils/Logger';

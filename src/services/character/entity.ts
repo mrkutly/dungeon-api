@@ -8,10 +8,10 @@ import {
   ManyToOne
 } from 'typeorm';
 
-import { User } from '../user/entity';
+import User from '../user/entity';
 
 @Entity()
-export class Character extends BaseEntity {
+class Character extends BaseEntity {
 
   @PrimaryGeneratedColumn()
   id!: number;
@@ -27,4 +27,39 @@ export class Character extends BaseEntity {
 
   @UpdateDateColumn()
   updated_at!: string;
+
+  @Column({ type: 'int2', default: 1 })
+  level: number;
+
+  @Column({ type: 'int4', default: 0 })
+  experience: number;
+
+  @Column({ type: 'int2', default: 0 })
+  speed: number;
+
+  @Column({ type: 'int2', default: 0 })
+  strength: number;
+
+  @Column({ type: 'int2', default: 0 })
+  dexterity: number;
+
+  @Column({ type: 'int2', default: 0 })
+  constitution: number;
+
+  @Column({ type: 'int2', default: 0 })
+  wisdom: number;
+
+  @Column({ type: 'int2', default: 0 })
+  intelligence: number;
+
+  @Column({ type: 'int2', default: 0 })
+  charisma: number;
+
+  @Column({ type: 'int2', default: 0 })
+  current_hp: number;
+
+  @Column({ type: 'int2', default: 0 })
+  max_hp: number;
 }
+
+export default Character;
