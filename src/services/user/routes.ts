@@ -80,7 +80,8 @@ const userRoutes = [
 				await user.hashPassword(password);
 				await user.save();
 
-				res.status(200).json({ message: "Password successfully reset" });
+				const token = TokenManager.makeToken(user);
+				res.status(200).json({ message: "Password successfully reset", token });
 			}
 		]
 	}
