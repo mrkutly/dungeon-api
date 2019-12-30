@@ -1,6 +1,6 @@
 import dotenv from 'dotenv';
 import jwt, { Secret } from 'jsonwebtoken';
-import { User } from '../services/database/entity/User';
+import { User } from '../services/user/entity';
 
 dotenv.config();
 

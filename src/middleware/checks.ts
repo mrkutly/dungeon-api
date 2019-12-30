@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { HTTP400Error } from "../utils/httpErrors";
-import { User } from '../services/database/entity/User';
+import { User } from '../services/user/entity';
 
 export const checkUserParams = (
   req: Request,
@@ -67,4 +67,33 @@ export const checkAuthorizationHeader = async (
   } catch (error) {
     next(error);
   }
+};
+
+export const checkUserDoesNotExist = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  try {
+    const { email } = req.body;
+    const foundUser = await User.findOne({ email });
+    if (foundUser) {
+      throw new HTTP400Error('Account already exists for that email');
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const checkResetRequestParams = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): void => {
+  const { email } = req.body;
+  if (!email) {
+    throw new HTTP400Error('Missing required paramter: email');
+  }
+
+  next();
 };

@@ -6,7 +6,7 @@ module.exports = {
   logging: process.env.NODE_ENV !== 'production',
   synchronize: false,
   entities: [
-      "dist/services/database/entity/*.js"
+      "dist/services/**/entity.js",
   ],
   entitySchemas: [
       "dist/services/database/schema/*.json"
