@@ -4,7 +4,8 @@ import {
 	checkUserParams,
 	checkLoginCredentials,
 	checkUserDoesNotExist,
-	checkResetRequestParams
+	checkResetRequestParams,
+	checkPasswordResetToken
 } from '../../middleware/checks';
 import { User } from './entity';
 import * as TokenManager from '../../utils/TokenManager';
@@ -72,7 +73,15 @@ const userRoutes = [
 		path: "/api/v1/reset-password",
 		method: "post",
 		handler: [
+			checkPasswordResetToken,
+			async (req: Request, res: Response): Promise<void> => {
+				const { user } = req;
+				const { password } = req.body;
+				await user.hashPassword(password);
+				await user.save();
 
+				res.status(200).json({ message: "Password successfully reset" });
+			}
 		]
 	}
 ];

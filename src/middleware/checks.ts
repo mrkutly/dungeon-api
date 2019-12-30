@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { HTTP400Error } from "../utils/httpErrors";
 import { User } from '../services/user/entity';
+import Logger from "../utils/Logger";
 
 export const checkUserParams = (
   req: Request,
@@ -80,6 +81,8 @@ export const checkUserDoesNotExist = async (
     if (foundUser) {
       throw new HTTP400Error('Account already exists for that email');
     }
+
+    next();
   } catch (error) {
     next(error);
   }
@@ -96,4 +99,25 @@ export const checkResetRequestParams = (
   }
 
   next();
+};
+
+export const checkPasswordResetToken = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  try {
+    const { token } = req.body;
+    const user = await User.findOne({ reset_token: token });
+    const tokenExpired = Number(user?.reset_token_expiry) < Date.now();
+
+    if (!user || tokenExpired) {
+      throw new HTTP400Error('Invalid reset token');
+    }
+
+    req.user = user;
+    next();
+  } catch (error) {
+    next(error);
+  }
 };

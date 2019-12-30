@@ -8,12 +8,12 @@ import routes from './services';
 import errorHandlers from "./middleware/errorHandlers";
 
 process.on("uncaughtException", (e) => {
-  console.log(e);
+  Logger.error(e);
   process.exit(1);
 });
 
 process.on("unhandledRejection", (e) => {
-  console.log(e);
+  Logger.error(JSON.stringify(e, null, 2));
   process.exit(1);
 });
 
