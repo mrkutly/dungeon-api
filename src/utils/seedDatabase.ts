@@ -131,4 +131,4 @@ async function seedDatabase(opts?: SeedOptions): Promise<void> {
   }
 }
 
-seedDatabase({ resetResourceUrls: true });
+seedDatabase();
