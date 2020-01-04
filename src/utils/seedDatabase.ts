@@ -13,7 +13,6 @@ import Skill from '../services/skill/entity';
 import Spell from '../services/spell/entity';
 import Condition from '../services/condition/entity';
 import MagicSchool from '../services/magic_school/entity';
-import { openSync } from 'fs';
 
 const baseUrl = 'http://dnd5eapi.co/api/';
 
@@ -63,12 +62,12 @@ async function seedResource(Resource: any, apiPath: string): Promise<void> {
   }
 }
 
-async function assignSpellCasting(): Promise<void> {
+async function assignSpellCasting(opts?: SeedOptions): Promise<void> {
   try {
     const characterClass = await CharacterClass.findOne({ name: "Bard" });
     const spellcastingUrl = characterClass?.spellcasting_url;
 
-    if (!spellcastingUrl) {
+    if (!spellcastingUrl || opts?.resetResourceUrls) {
       const response = await axios.get(`${baseUrl}spellcasting`);
       const results: SpellcastingResult[] = response.data.results;
 
@@ -117,7 +116,7 @@ async function seedDatabase(opts?: SeedOptions): Promise<void> {
       await seedResource(resource.entity, resource.apiPath);
     }
 
-    await assignSpellCasting();
+    await assignSpellCasting(opts);
 
     if (opts?.resetResourceUrls) {
       for (const resource of resources) {
