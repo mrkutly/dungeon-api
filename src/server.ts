@@ -8,7 +8,7 @@ import routes from './services';
 import errorHandlers from "./middleware/errorHandlers";
 
 process.on("uncaughtException", (e) => {
-  Logger.error(e);
+  Logger.error(JSON.stringify(e, null, 2));
   process.exit(1);
 });
 

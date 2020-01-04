@@ -5,10 +5,23 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
-  ManyToOne
+  ManyToOne,
+  JoinColumn,
+  ManyToMany,
+  JoinTable
 } from 'typeorm';
 
 import User from '../user/entity';
+import Race from '../race/entity';
+import CharacterClass from '../character_class/entity';
+import Feature from '../feature/entity';
+import Equipment from '../equipment/entity';
+import Condition from '../condition/entity';
+import Language from '../language/entity';
+import Proficiency from '../proficiency/entity';
+import Skill from '../skill/entity';
+import Spell from '../spell/entity';
+import MagicSchool from '../magic_school/entity';
 
 @Entity()
 class Character extends BaseEntity {
@@ -21,6 +34,46 @@ class Character extends BaseEntity {
 
   @ManyToOne(() => User, (user) => user.characters)
   user!: User;
+
+  @JoinColumn()
+  @ManyToOne(() => Race)
+  race: Race;
+
+  @JoinColumn()
+  @ManyToOne(() => MagicSchool)
+  magic_school: MagicSchool;
+
+  @JoinColumn()
+  @ManyToOne(() => CharacterClass)
+  character_class: CharacterClass;
+
+  @ManyToMany(() => Feature)
+  @JoinTable()
+  features: Feature[];
+
+  @ManyToMany(() => Equipment)
+  @JoinTable()
+  equipment: Equipment[];
+
+  @ManyToMany(() => Condition)
+  @JoinTable()
+  conditions: Condition[];
+
+  @ManyToMany(() => Language)
+  @JoinTable()
+  languages: Language[];
+
+  @ManyToMany(() => Proficiency)
+  @JoinTable()
+  proficiencies: Proficiency[];
+
+  @ManyToMany(() => Skill)
+  @JoinTable()
+  skills: Skill[];
+
+  @ManyToMany(() => Spell)
+  @JoinTable()
+  spells: Spell[];
 
   @CreateDateColumn()
   created_at!: string;

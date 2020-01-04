@@ -7,7 +7,7 @@ import {
 } from 'typeorm';
 
 @Entity()
-class Race extends BaseEntity {
+class CharacterClass extends BaseEntity {
   @PrimaryGeneratedColumn()
   id!: number;
 
@@ -17,6 +17,9 @@ class Race extends BaseEntity {
 
   @Column()
   resource_url!: string;
+
+  @Column({ nullable: true })
+  spellcasting_url?: string;
 }
 
-export default Race;
+export default CharacterClass;

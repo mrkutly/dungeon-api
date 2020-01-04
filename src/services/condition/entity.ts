@@ -7,7 +7,7 @@ import {
 } from 'typeorm';
 
 @Entity()
-class Race extends BaseEntity {
+class Condition extends BaseEntity {
   @PrimaryGeneratedColumn()
   id!: number;
 
@@ -19,4 +19,4 @@ class Race extends BaseEntity {
   resource_url!: string;
 }
 
-export default Race;
+export default Condition;
