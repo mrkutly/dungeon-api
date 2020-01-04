@@ -9,6 +9,7 @@ const equipmentRoutes = [
       async (req: Request, res: Response): Promise<void> => {
         const equipment = await Equipment.find();
         res.status(200).json({ equipment });
+
       }
     ]
   }

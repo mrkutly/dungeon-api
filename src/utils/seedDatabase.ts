@@ -1,3 +1,5 @@
+// TODO: Seed db again with updated resource urls
+
 import axios from 'axios';
 import { createConnection } from 'typeorm';
 import Logger from './Logger';
@@ -11,8 +13,22 @@ import Skill from '../services/skill/entity';
 import Spell from '../services/spell/entity';
 import Condition from '../services/condition/entity';
 import MagicSchool from '../services/magic_school/entity';
+import { openSync } from 'fs';
 
 const baseUrl = 'http://dnd5eapi.co/api/';
+
+const resources = [
+  { entity: CharacterClass, apiPath: 'classes' },
+  { entity: Condition, apiPath: 'conditions' },
+  { entity: Equipment, apiPath: 'equipment' },
+  { entity: Feature, apiPath: 'features' },
+  { entity: Language, apiPath: 'languages' },
+  { entity: Proficiency, apiPath: 'proficiencies' },
+  { entity: Race, apiPath: 'races' },
+  { entity: Skill, apiPath: 'skills' },
+  { entity: Spell, apiPath: 'spells' },
+  { entity: MagicSchool, apiPath: 'magic-schools' },
+];
 
 type Result = {
   name: string;
@@ -32,21 +48,15 @@ async function seedResource(Resource: any, apiPath: string): Promise<void> {
       const resp = await axios.get(`${baseUrl}${apiPath}`);
       Logger.verbose(JSON.stringify(resp.data, null, 2));
 
-      await resp.data.results.reduce(
-        async (prev: Promise<Result>, result: Result): Promise<void> => {
-          try {
-            await prev;
-            const instance = new Resource();
-            instance.name = result.name;
-            instance.resource_url = result.url;
-            await instance.save();
-            Logger.verbose(JSON.stringify(instance, null, 2));
-          } catch (error) {
-            Logger.error(error.message);
-          }
-        }
-        , Promise.resolve()
-      );
+      const results: Result[] = resp.data.results;
+
+      for (const result of results) {
+        const instance = new Resource();
+        instance.name = result.name;
+        instance.resource_url = result.url;
+        await instance.save();
+        Logger.verbose(JSON.stringify(instance, null, 2));
+      }
     }
   } catch (error) {
     Logger.error(error.message);
@@ -62,39 +72,63 @@ async function assignSpellCasting(): Promise<void> {
       const response = await axios.get(`${baseUrl}spellcasting`);
       const results: SpellcastingResult[] = response.data.results;
 
-      await results.reduce(async (prev: Promise<void>, result): Promise<void> => {
-        await prev;
+      for (const result of results) {
         const charClass = await CharacterClass.findOne({ name: result.class });
 
         if (charClass) {
           charClass.spellcasting_url = result.url;
           await charClass?.save();
         }
-      }, Promise.resolve());
+      }
     }
   } catch (error) {
     Logger.error(error.message);
   }
 }
 
-async function seedDatabase(): Promise<void> {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+async function resetResourceUrls(Resource: any, apiPath: string): Promise<void> {
+  try {
+    const resp = await axios.get(`${baseUrl}${apiPath}`);
+    Logger.verbose(JSON.stringify(resp.data, null, 2));
+    const results: Result[] = resp.data.results;
+
+    for (const result of results) {
+      const instance = await Resource.findOne({ name: result.name });
+      instance.resource_url = result.url;
+      await instance.save();
+      Logger.verbose(JSON.stringify(instance, null, 2));
+    }
+
+  } catch (error) {
+    Logger.error(error.message);
+  }
+}
+
+type SeedOptions = {
+  resetResourceUrls?: boolean;
+};
+
+async function seedDatabase(opts?: SeedOptions): Promise<void> {
   try {
     await createConnection();
-    await seedResource(CharacterClass, 'classes');
-    await seedResource(Condition, 'conditions');
-    await seedResource(Equipment, 'equipment');
-    await seedResource(Feature, 'features');
-    await seedResource(Language, 'languages');
-    await seedResource(Proficiency, 'proficiencies');
-    await seedResource(Race, 'races');
-    await seedResource(Skill, 'skills');
-    await seedResource(Spell, 'spells');
-    await seedResource(MagicSchool, 'magic-schools');
+
+    for (const resource of resources) {
+      await seedResource(resource.entity, resource.apiPath);
+    }
+
     await assignSpellCasting();
+
+    if (opts?.resetResourceUrls) {
+      for (const resource of resources) {
+        await resetResourceUrls(resource.entity, resource.apiPath);
+      }
+    }
+
     process.exit(0);
   } catch (error) {
     Logger.error(error.message);
   }
 }
 
-seedDatabase();
+seedDatabase({ resetResourceUrls: true });

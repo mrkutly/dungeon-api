@@ -1,6 +1,8 @@
 import { Request, Response, NextFunction } from "express";
 import { HTTP400Error } from "../utils/httpErrors";
+import RedisClient from '../utils/RedisClient';
 import User from '../services/user/entity';
+import Logger from "../utils/Logger";
 
 export const checkUserParams = (
   req: Request,
@@ -118,5 +120,27 @@ export const checkPasswordResetToken = async (
     next();
   } catch (error) {
     next(error);
+  }
+};
+
+export const checkCache = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  try {
+    const { path } = req;
+    RedisClient.get(path, (err, data) => {
+      Logger.verbose(JSON.stringify(data, null, 2));
+      Logger.verbose(path);
+
+      if (data) {
+        res.status(200).json(data);
+      } else {
+        next();
+      }
+    });
+  } catch (error) {
+    next();
   }
 };
