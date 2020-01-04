@@ -13,7 +13,7 @@
     "db:create": "docker exec -it dungeondbdev psql -U postgres -c \"create database dungeondbdev\"",
     "db:drop": "docker exec -it dungeondbdev psql -U postgres -c \"drop database dungeondbdev\"",
     "db:start": "docker-compose up -d",
-    "db:sync": "npx tsc && npx typeorm schema:sync",
+    "db:sync": "npx tsc && npx typeorm schema:sync && node dist/utils/seedDatabase.js",
     "db:seed": "npx tsc && node dist/utils/seedDatabase.js",
     "dev": "tsc-watch --onSuccess \"node ./dist/server.js\"",
     "start": "npx pm2-runtime start pm2.yml",
