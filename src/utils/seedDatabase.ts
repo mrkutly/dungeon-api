@@ -1,4 +1,4 @@
-// TODO: Seed db again with updated resource urls
+// TODO: reseed features
 
 import axios from 'axios';
 import { createConnection } from 'typeorm';
@@ -130,4 +130,4 @@ async function seedDatabase(opts?: SeedOptions): Promise<void> {
   }
 }
 
-seedDatabase({ resetResourceUrls: true });
+seedDatabase();

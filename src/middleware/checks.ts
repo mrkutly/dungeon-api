@@ -131,11 +131,8 @@ export const checkCache = async (
   try {
     const { path } = req;
     RedisClient.get(path, (err, data) => {
-      Logger.verbose(JSON.stringify(data, null, 2));
-      Logger.verbose(path);
-
       if (data) {
-        res.status(200).json(data);
+        res.status(200).json(JSON.parse(data));
       } else {
         next();
       }

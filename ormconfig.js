@@ -8,14 +8,7 @@ module.exports = {
   entities: [
       "dist/services/**/entity.js",
   ],
-  entitySchemas: [
-      "dist/services/database/schema/*.json"
-  ],
-  migrations: [
-      "dist/services/database/migration/*.js"
-  ],
   cli: {
       entitiesDir: "entity",
-      migrationsDir: "migration",
   }
 }

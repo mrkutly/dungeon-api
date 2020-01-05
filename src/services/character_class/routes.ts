@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import axios from 'axios';
 import CharacterClass from './entity';
 import { checkCache } from '../../middleware/checks';
-import Logger from '../../utils/Logger';
+import RedisClient from '../../utils/RedisClient';
 
 const classRoutes = [
   {
@@ -26,7 +26,10 @@ const classRoutes = [
 
         if (resourceUrl) {
           const { data } = await axios.get(`http://www.dnd5eapi.co${resourceUrl}`);
-          Logger.verbose(JSON.stringify(data, null, 2));
+          res.status(200).json({ data });
+          RedisClient.set(req.path, JSON.stringify({ data }));
+        } else {
+          res.status(404).json({ error: "Resource not found" });
         }
       }
     ]
