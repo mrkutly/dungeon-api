@@ -1,10 +1,10 @@
 import { Request, Response, NextFunction } from "express";
-import { HTTP400Error } from "../utils/httpErrors";
+import { validate } from 'class-validator';
+import { HTTP400Error, HTTPClientError, HTTP404Error } from "../utils/httpErrors";
 import RedisClient from '../utils/RedisClient';
 import User from '../services/user/entity';
-import Logger from "../utils/Logger";
 
-export const checkUserParams = (
+export const checkUserParamsPresent = (
   req: Request,
   res: Response,
   next: NextFunction
@@ -17,6 +17,31 @@ export const checkUserParams = (
     throw new HTTP400Error(`Missing required parameters: ${missingParams.join(', ')}`);
   } else {
     next();
+  }
+};
+
+export const checkUserParamsValid = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  try {
+    const { email, password } = req.body;
+    const user = new User();
+
+    user.email = email;
+    user.password = password;
+    const errors = await validate(user);
+
+    if (errors.length > 0) {
+      const errorMessages = Object.values(errors[0].constraints).join(", ");
+      throw new HTTP404Error(errorMessages);
+    }
+
+    req.user = user;
+    next();
+  } catch (error) {
+    next(error);
   }
 };
 

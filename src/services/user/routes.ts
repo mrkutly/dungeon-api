@@ -1,7 +1,8 @@
 import { Request, Response } from 'express';
 import dotenv from 'dotenv';
 import {
-	checkUserParams,
+	checkUserParamsPresent,
+	checkUserParamsValid,
 	checkLoginCredentials,
 	checkUserDoesNotExist,
 	checkResetRequestParams,
@@ -19,18 +20,17 @@ const userRoutes = [
 		path: "/api/v1/signup",
 		method: "post",
 		handler: [
-			checkUserParams,
+			checkUserParamsPresent,
+			checkUserParamsValid,
 			checkUserDoesNotExist,
-			async ({ body }: Request, res: Response): Promise<void> => {
-				const { email, password } = body;
-				const user = new User();
-
-				user.email = email;
-				user.password = password;
-
-				await user.save();
-				const token = TokenManager.makeToken(user);
-				res.status(201).json({ token });
+			async ({ user }: Request, res: Response): Promise<void> => {
+				try {
+					await user.save();
+					const token = TokenManager.makeToken(user);
+					res.status(201).json({ token });
+				} catch (error) {
+					res.status(404).json({ error: error.message });
+				}
 			}
 		]
 	},
@@ -38,7 +38,7 @@ const userRoutes = [
 		path: "/api/v1/login",
 		method: "post",
 		handler: [
-			checkUserParams,
+			checkUserParamsPresent,
 			checkLoginCredentials,
 			async (req: Request, res: Response): Promise<void> => {
 				const token = TokenManager.makeToken(req.user);

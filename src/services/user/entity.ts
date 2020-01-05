@@ -9,10 +9,12 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   OneToMany,
+  getConnection,
 } from 'typeorm';
+import { IsEmail } from 'class-validator';
 import { promisify } from 'util';
 import { randomBytes } from 'crypto';
-import { getConnection } from 'typeorm';
+
 
 import * as TokenManager from '../../utils/TokenManager';
 import Character from '../character/entity';
@@ -30,6 +32,7 @@ class User extends BaseEntity {
 
   @Index({ unique: true })
   @Column()
+  @IsEmail()
   email!: string;
 
   @Column()
