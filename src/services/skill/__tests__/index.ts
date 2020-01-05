@@ -7,7 +7,9 @@ import errorHandlers from "../../../middleware/errorHandlers";
 import routes from '../routes';
 import { createConnection } from 'typeorm';
 
-describe("GET /skills", (): void => {
+jest.mock('axios');
+
+describe("/skills", (): void => {
   let app: Router;
 
   beforeAll(async (): Promise<void> => {
@@ -19,10 +21,29 @@ describe("GET /skills", (): void => {
     applyMiddleware(errorHandlers, app);
   });
 
-  it("sends an array of skills", async (): Promise<void> => {
-    const response = await request(app).get('/api/v1/skills');
+  describe("GET /skills", (): void => {
+    it("sends an array of skills", async (): Promise<void> => {
+      const response = await request(app).get('/api/v1/skills');
 
-    expect(response.status).toBe(200);
-    expect(response.body.skills).toBeInstanceOf(Array);
+      expect(response.status).toBe(200);
+      expect(response.body.skills).toBeInstanceOf(Array);
+    });
+  });
+
+
+  describe('GET /:id', (): void => {
+    it("sends an error back if the id does not exist", async (): Promise<void> => {
+      const response = await request(app).get('/api/v1/skills/20000');
+
+      expect(response.status).toBe(404);
+      expect(response.body.error).toBe("Resource not found");
+    });
+
+    it("sends back data about the skill", async (): Promise<void> => {
+      const response = await request(app).get('/api/v1/skills/2');
+
+      expect(response.status).toBe(200);
+      expect(response.body).toHaveProperty('data');
+    });
   });
 });

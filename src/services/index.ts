@@ -1,27 +1,30 @@
-import userRoutes from './user/routes';
 import characterRoutes from './character/routes';
-import raceRoutes from './race/routes';
 import classRoutes from './character_class/routes';
-import featureRoutes from './feature/routes';
-import proficiencyRoutes from './proficiency/routes';
+import conditionRoutes from './condition/routes';
 import equipmentRoutes from './equipment/routes';
+import featureRoutes from './feature/routes';
 import languageRoutes from './language/routes';
+import magicSchoolRoutes from './magic_school/routes';
+import proficiencyRoutes from './proficiency/routes';
+import raceRoutes from './race/routes';
 import skillRoutes from './skill/routes';
 import spellRoutes from './spell/routes';
-import conditionRoutes from './condition/routes';
-import magicSchoolRoutes from './magic_school/routes';
+import subclassRoutes from './subclass/routes';
+import userRoutes from './user/routes';
+
 
 export default [
-  ...userRoutes,
   ...characterRoutes,
-  ...raceRoutes,
   ...classRoutes,
-  ...featureRoutes,
-  ...proficiencyRoutes,
+  ...conditionRoutes,
   ...equipmentRoutes,
+  ...featureRoutes,
   ...languageRoutes,
+  ...magicSchoolRoutes,
+  ...proficiencyRoutes,
+  ...raceRoutes,
   ...skillRoutes,
   ...spellRoutes,
-  ...conditionRoutes,
-  ...magicSchoolRoutes,
+  ...subclassRoutes,
+  ...userRoutes,
 ];

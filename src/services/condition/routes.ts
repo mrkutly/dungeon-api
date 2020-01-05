@@ -1,8 +1,11 @@
+import dotenv from 'dotenv';
 import { Request, Response } from 'express';
 import axios from 'axios';
 import Condition from './entity';
 import { checkCache } from '../../middleware/checks';
 import RedisClient from '../../utils/RedisClient';
+
+dotenv.config();
 
 const conditionRoutes = [
   {
@@ -25,7 +28,7 @@ const conditionRoutes = [
         const resourceUrl = condition?.resource_url;
 
         if (resourceUrl) {
-          const { data } = await axios.get(`http://www.dnd5eapi.co${resourceUrl}`);
+          const { data } = await axios.get(`${process.env.DND_API_URL}${resourceUrl}`);
           res.status(200).json({ data });
           RedisClient.set(req.path, JSON.stringify({ data }));
         } else {

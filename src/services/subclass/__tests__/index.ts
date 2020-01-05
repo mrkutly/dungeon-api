@@ -9,7 +9,7 @@ import { createConnection } from 'typeorm';
 
 jest.mock('axios');
 
-describe("/proficiencies", (): void => {
+describe("/spells", (): void => {
   let app: Router;
 
   beforeAll(async (): Promise<void> => {
@@ -22,26 +22,25 @@ describe("/proficiencies", (): void => {
   });
 
   describe("GET /", (): void => {
-
-    it("sends an array of proficiencies", async (): Promise<void> => {
-      const response = await request(app).get('/api/v1/proficiencies');
+    it("sends an array of subclasses", async (): Promise<void> => {
+      const response = await request(app).get('/api/v1/subclasses');
 
       expect(response.status).toBe(200);
-      expect(response.body.proficiencies).toBeInstanceOf(Array);
+      expect(response.body.subclasses).toBeInstanceOf(Array);
     });
   });
 
 
   describe('GET /:id', (): void => {
     it("sends an error back if the id does not exist", async (): Promise<void> => {
-      const response = await request(app).get('/api/v1/proficiencies/20000');
+      const response = await request(app).get('/api/v1/subclasses/20000');
 
       expect(response.status).toBe(404);
       expect(response.body.error).toBe("Resource not found");
     });
 
-    it("sends back data about the proficiency", async (): Promise<void> => {
-      const response = await request(app).get('/api/v1/proficiencies/2');
+    it("sends back data about the subclass", async (): Promise<void> => {
+      const response = await request(app).get('/api/v1/subclasses/2');
 
       expect(response.status).toBe(200);
       expect(response.body).toHaveProperty('data');

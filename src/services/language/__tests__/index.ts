@@ -7,7 +7,9 @@ import errorHandlers from "../../../middleware/errorHandlers";
 import routes from '../routes';
 import { createConnection } from 'typeorm';
 
-describe("GET /languages", (): void => {
+jest.mock('axios');
+
+describe("/languages", (): void => {
   let app: Router;
 
   beforeAll(async (): Promise<void> => {
@@ -19,10 +21,29 @@ describe("GET /languages", (): void => {
     applyMiddleware(errorHandlers, app);
   });
 
-  it("sends an array of languages", async (): Promise<void> => {
-    const response = await request(app).get('/api/v1/languages');
+  describe("GET /", (): void => {
+    it("sends an array of languages", async (): Promise<void> => {
+      const response = await request(app).get('/api/v1/languages');
 
-    expect(response.status).toBe(200);
-    expect(response.body.languages).toBeInstanceOf(Array);
+      expect(response.status).toBe(200);
+      expect(response.body.languages).toBeInstanceOf(Array);
+    });
+  });
+
+
+  describe('GET /:id', (): void => {
+    it("sends an error back if the id does not exist", async (): Promise<void> => {
+      const response = await request(app).get('/api/v1/languages/20000');
+
+      expect(response.status).toBe(404);
+      expect(response.body.error).toBe("Resource not found");
+    });
+
+    it("sends back data about the language", async (): Promise<void> => {
+      const response = await request(app).get('/api/v1/languages/2');
+
+      expect(response.status).toBe(200);
+      expect(response.body).toHaveProperty('data');
+    });
   });
 });

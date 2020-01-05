@@ -1,5 +1,3 @@
-// TODO: reseed features
-
 import axios from 'axios';
 import { createConnection } from 'typeorm';
 import Logger from './Logger';
@@ -13,8 +11,9 @@ import Skill from '../services/skill/entity';
 import Spell from '../services/spell/entity';
 import Condition from '../services/condition/entity';
 import MagicSchool from '../services/magic_school/entity';
+import SubClass from '../services/subclass/entity';
 
-const baseUrl = 'http://dnd5eapi.co/api/';
+const baseUrl = 'https://dnd5eapi.co/api/';
 
 const resources = [
   { entity: CharacterClass, apiPath: 'classes' },
@@ -27,6 +26,7 @@ const resources = [
   { entity: Skill, apiPath: 'skills' },
   { entity: Spell, apiPath: 'spells' },
   { entity: MagicSchool, apiPath: 'magic-schools' },
+  { entity: SubClass, apiPath: 'subclasses' },
 ];
 
 type Result = {
