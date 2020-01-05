@@ -50,11 +50,15 @@ async function seedResource(Resource: any, apiPath: string): Promise<void> {
       const results: Result[] = resp.data.results;
 
       for (const result of results) {
-        const instance = new Resource();
-        instance.name = result.name;
-        instance.resource_url = result.url;
-        await instance.save();
-        Logger.verbose(JSON.stringify(instance, null, 2));
+        try {
+          const instance = new Resource();
+          instance.name = result.name;
+          instance.resource_url = result.url;
+          await instance.save();
+          Logger.verbose(JSON.stringify(instance, null, 2));
+        } catch (error) {
+          Logger.error(error.message);
+        }
       }
     }
   } catch (error) {
@@ -72,11 +76,15 @@ async function assignSpellCasting(opts?: SeedOptions): Promise<void> {
       const results: SpellcastingResult[] = response.data.results;
 
       for (const result of results) {
-        const charClass = await CharacterClass.findOne({ name: result.class });
+        try {
+          const charClass = await CharacterClass.findOne({ name: result.class });
 
-        if (charClass) {
-          charClass.spellcasting_url = result.url;
-          await charClass?.save();
+          if (charClass) {
+            charClass.spellcasting_url = result.url;
+            await charClass?.save();
+          }
+        } catch (error) {
+          Logger.error(error.message);
         }
       }
     }
@@ -93,10 +101,14 @@ async function resetResourceUrls(Resource: any, apiPath: string): Promise<void> 
     const results: Result[] = resp.data.results;
 
     for (const result of results) {
-      const instance = await Resource.findOne({ name: result.name });
-      instance.resource_url = result.url;
-      await instance.save();
-      Logger.verbose(JSON.stringify(instance, null, 2));
+      try {
+        const instance = await Resource.findOne({ name: result.name });
+        instance.resource_url = result.url;
+        await instance.save();
+        Logger.verbose(JSON.stringify(instance, null, 2));
+      } catch (error) {
+        Logger.error(error.message);
+      }
     }
 
   } catch (error) {
