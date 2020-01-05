@@ -14,6 +14,7 @@ import {
 import { IsEmail } from 'class-validator';
 import { promisify } from 'util';
 import { randomBytes } from 'crypto';
+import { IsSecurePassword } from './decorators';
 
 
 import * as TokenManager from '../../utils/TokenManager';
@@ -36,6 +37,7 @@ class User extends BaseEntity {
   email!: string;
 
   @Column()
+  @IsSecurePassword()
   password!: string;
 
   @Column({ nullable: true })
