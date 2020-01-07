@@ -19,18 +19,20 @@ describe("GET /characters", (): void => {
     applyMiddleware(errorHandlers, app);
   });
 
-  it("does not send characters if the auth header is not present.", async (): Promise<void> => {
+  it("does not send characters if the auth header is not present.", async (done): Promise<void> => {
     const response = await request(app).get('/api/v1/characters');
     expect(response.status).toBe(400);
     expect(response.body.error).toBe("Missing authorization header");
+    done();
   });
 
-  it("sends an array of characers when the auth header is present.", async (): Promise<void> => {
+  it("sends an array of characers when the auth header is present.", async (done): Promise<void> => {
     const response = await request(app)
       .get('/api/v1/characters')
       .set({ authorization: process.env.TEST_JWT });
 
     expect(response.status).toBe(200);
     expect(response.body.characters).toBeInstanceOf(Array);
+    done();
   });
 });

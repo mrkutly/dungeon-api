@@ -20,7 +20,7 @@
     "build": "npx tsc",
     "start": "npx pm2-runtime start pm2.yml",
     "postinstall": "npm run db:sync",
-    "test": "jest --verbose --coverage",
+    "test": "jest --verbose --forceExit",
     "test:watch": "jest --verbose --watch --detectOpenHandles"
   },
   "jest": {

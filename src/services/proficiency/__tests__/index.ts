@@ -23,28 +23,31 @@ describe("/proficiencies", (): void => {
 
   describe("GET /", (): void => {
 
-    it("sends an array of proficiencies", async (): Promise<void> => {
+    it("sends an array of proficiencies", async (done): Promise<void> => {
       const response = await request(app).get('/api/v1/proficiencies');
 
       expect(response.status).toBe(200);
       expect(response.body.proficiencies).toBeInstanceOf(Array);
+      done();
     });
   });
 
 
   describe('GET /:id', (): void => {
-    it("sends an error back if the id does not exist", async (): Promise<void> => {
+    it("sends an error back if the id does not exist", async (done): Promise<void> => {
       const response = await request(app).get('/api/v1/proficiencies/20000');
 
       expect(response.status).toBe(404);
       expect(response.body.error).toBe("Resource not found");
+      done();
     });
 
-    it("sends back data about the proficiency", async (): Promise<void> => {
+    it("sends back data about the proficiency", async (done): Promise<void> => {
       const response = await request(app).get('/api/v1/proficiencies/2');
 
       expect(response.status).toBe(200);
       expect(response.body).toHaveProperty('data');
+      done();
     });
   });
 });
