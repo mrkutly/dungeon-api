@@ -9,6 +9,7 @@ import errorHandlers from "../../../middleware/errorHandlers";
 import routes from '../routes';
 
 jest.mock('axios');
+jest.mock('redis');
 
 describe("/character_classes", (): void => {
   let app: Router;

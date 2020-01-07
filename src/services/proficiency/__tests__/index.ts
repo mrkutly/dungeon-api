@@ -8,6 +8,7 @@ import routes from '../routes';
 import { createConnection } from 'typeorm';
 
 jest.mock('axios');
+jest.mock('redis');
 
 describe("/proficiencies", (): void => {
   let app: Router;

@@ -169,13 +169,19 @@ export const checkPasswordResetParams = (
   next();
 };
 
-export const checkCache = async (
+export const checkCache = (
   req: Request,
   res: Response,
   next: NextFunction
-): Promise<void> => {
+): void => {
   try {
     const { path } = req;
+
+    // skip cache during testing
+    if (process.env.NODE_ENV === 'test') {
+      return next();
+    }
+
     RedisClient.get(path, (err, data) => {
       if (data) {
         res.status(200).json(JSON.parse(data));

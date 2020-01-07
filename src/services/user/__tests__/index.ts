@@ -10,6 +10,7 @@ import User from '../entity';
 import * as Mailer from '../../../utils/Mailer';
 
 jest.mock('axios');
+jest.mock('redis');
 jest.mock('../../../utils/Mailer');
 
 describe("User Routes", (): void => {
