@@ -23,6 +23,7 @@ jobs:
         npm run build
         npm test
       env:
+        NODE_ENV: "test"
         CI: true
         TEST_JWT: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTU3ODM2MDAyOCwiZXhwIjoxNTc4NTMyODI4fQ.eKhzSWernP06Vm0v2gKNXOZXHuUvu33rN8S8gxoLjMk"
         TEST_EMAIL: "test_account@test.com"
