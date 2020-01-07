@@ -11,7 +11,7 @@ if (process.env.NODE_ENV === 'test') {
   RedisClient = {
     get: (path, cb) => { },
     set: (path, data) => { },
-  };
+  } as redis.RedisClient;
 } else {
   RedisClient = redis.createClient({ url: redisUrl });
 }
