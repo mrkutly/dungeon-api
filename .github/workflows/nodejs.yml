@@ -18,10 +18,16 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - name: npm install, build, and test
-      run: |
-        npm ci --ignore-scripts
-        npm run build --if-present
-        npm test
+      steps:
+      - uses: borales/actions-yarn@v2.0.0
+        with:
+          cmd: install --ignore-scripts # will run `yarn install` command
+      - uses: borales/actions-yarn@v2.0.0
+        with:
+          cmd: build # will run `yarn build` command
+      - uses: borales/actions-yarn@v2.0.0
+        with:
+          cmd: test # will run `yarn test` command
       env:
         CI: true
         TEST_JWT: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTU3ODM2MDAyOCwiZXhwIjoxNTc4NTMyODI4fQ.eKhzSWernP06Vm0v2gKNXOZXHuUvu33rN8S8gxoLjMk"
