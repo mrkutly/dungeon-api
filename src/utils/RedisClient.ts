@@ -5,6 +5,15 @@ dotenv.config();
 
 const redisUrl = process.env.REDIS_URL;
 
-const RedisClient = redis.createClient({ url: redisUrl });
+let RedisClient;
+
+if (process.env.NODE_ENV === 'test') {
+  RedisClient = {
+    get: (path, cb) => { },
+    set: (path, data) => { },
+  };
+} else {
+  RedisClient = redis.createClient({ url: redisUrl });
+}
 
 export default RedisClient;

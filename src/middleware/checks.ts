@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { validate } from 'class-validator';
-import { HTTP400Error, HTTP404Error } from "../utils/httpErrors";
+import { HTTP400Error } from "../utils/httpErrors";
 import RedisClient from '../utils/RedisClient';
 import User from '../services/user/entity';
 
