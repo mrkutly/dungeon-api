@@ -23,6 +23,9 @@ import Skill from '../skill/entity';
 import Spell from '../spell/entity';
 import MagicSchool from '../magic_school/entity';
 
+const int2 = process.env.NODE_ENV === 'test' ? 'int' : 'int2';
+const int4 = process.env.NODE_ENV === 'test' ? 'int' : 'int4';
+
 @Entity()
 class Character extends BaseEntity {
 
@@ -81,37 +84,37 @@ class Character extends BaseEntity {
   @UpdateDateColumn()
   updated_at!: string;
 
-  @Column({ type: 'int2', default: 1 })
+  @Column({ type: int2, default: 1 })
   level: number;
 
-  @Column({ type: 'int4', default: 0 })
+  @Column({ type: int4, default: 0 })
   experience: number;
 
-  @Column({ type: 'int2', default: 0 })
+  @Column({ type: int2, default: 0 })
   speed: number;
 
-  @Column({ type: 'int2', default: 0 })
+  @Column({ type: int2, default: 0 })
   strength: number;
 
-  @Column({ type: 'int2', default: 0 })
+  @Column({ type: int2, default: 0 })
   dexterity: number;
 
-  @Column({ type: 'int2', default: 0 })
+  @Column({ type: int2, default: 0 })
   constitution: number;
 
-  @Column({ type: 'int2', default: 0 })
+  @Column({ type: int2, default: 0 })
   wisdom: number;
 
-  @Column({ type: 'int2', default: 0 })
+  @Column({ type: int2, default: 0 })
   intelligence: number;
 
-  @Column({ type: 'int2', default: 0 })
+  @Column({ type: int2, default: 0 })
   charisma: number;
 
-  @Column({ type: 'int2', default: 0 })
+  @Column({ type: int2, default: 0 })
   current_hp: number;
 
-  @Column({ type: 'int2', default: 0 })
+  @Column({ type: int2, default: 0 })
   max_hp: number;
 }
 

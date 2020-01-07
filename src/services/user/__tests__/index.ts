@@ -14,7 +14,6 @@ jest.mock('../../../utils/Mailer');
 
 describe("User Routes", (): void => {
   let app: Router;
-  let resetToken: string;
 
   beforeAll(async (): Promise<void> => {
     await createConnection();

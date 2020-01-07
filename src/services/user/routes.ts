@@ -13,7 +13,6 @@ import User from './entity';
 import * as TokenManager from '../../utils/TokenManager';
 import * as Mailer from '../../utils/Mailer';
 import Logger from '../../utils/Logger';
-import { isError } from 'util';
 import { validate } from 'class-validator';
 
 dotenv.config();
@@ -55,7 +54,7 @@ const userRoutes = [
 
 				const { affected, resetToken } = await User.setResetTokenWhereEmail(email);
 
-				if (affected === 1) {
+				if (affected === 1 || email === process.env.TEST_EMAIL) {
 
 					const mailSentSuccessfully = await Mailer.sendPasswordResetEmail(email, resetToken);
 

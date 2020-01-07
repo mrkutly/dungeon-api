@@ -82,7 +82,6 @@ class User extends BaseEntity {
         reset_token_expiry: String(Date.now() + 3600000) // 1 hour from now
       })
       .where({ email })
-      .returning(["id"])
       .execute();
 
     return { affected: affected as number, resetToken: reset_token };
