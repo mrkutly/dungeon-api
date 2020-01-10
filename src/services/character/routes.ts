@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { checkAuthorizationHeader } from '../../middleware/checks';
+import { checkAuthorizationHeader, checkCharacterParams } from '../../middleware/checks';
 
 const characterRoutes = [
   {
@@ -11,6 +11,14 @@ const characterRoutes = [
         const characters = req.user.characters || [];
         res.status(200).json({ characters: characters });
       }
+    ]
+  },
+  {
+    path: "/api/v1/characters",
+    method: "post",
+    handler: [
+      checkAuthorizationHeader,
+      checkCharacterParams
     ]
   }
 ];

@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import dotenv from 'dotenv';
 import express, { Router } from "express";
 import request from "supertest";

@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { validate } from 'class-validator';
 import { HTTP400Error } from "../utils/httpErrors";
 import RedisClient from '../utils/RedisClient';
+import checkParams from '../utils/checkParams';
 import User from '../services/user/entity';
 
 export const checkUserParamsPresent = (
@@ -10,14 +11,7 @@ export const checkUserParamsPresent = (
   next: NextFunction
 ): void => {
   const requiredParams = ['email', 'password'];
-  const presentParams = Object.keys(req.body);
-  const missingParams = requiredParams.filter(param => !presentParams.includes(param));
-
-  if (missingParams.length > 0) {
-    throw new HTTP400Error(`Missing required parameters: ${missingParams.join(', ')}`);
-  } else {
-    next();
-  }
+  checkParams(requiredParams, req, next);
 };
 
 export const checkUserParamsValid = async (
@@ -123,12 +117,7 @@ export const checkResetRequestParams = (
   res: Response,
   next: NextFunction
 ): void => {
-  const { email } = req.body;
-  if (!email) {
-    throw new HTTP400Error('Missing required paramter: email');
-  }
-
-  next();
+  checkParams(['email'], req, next);
 };
 
 export const checkPasswordResetToken = async (
@@ -159,14 +148,7 @@ export const checkPasswordResetParams = (
   next: NextFunction
 ): void => {
   const requiredParams = ['token', 'password'];
-  const presentParams = Object.keys(req.body);
-  const missingParams = requiredParams.filter(param => !presentParams.includes(param));
-
-  if (missingParams.length > 0) {
-    throw new HTTP400Error(`Missing required parameters: ${missingParams.join(', ')}`);
-  }
-
-  next();
+  checkParams(requiredParams, req, next);
 };
 
 export const checkCache = (
@@ -192,4 +174,30 @@ export const checkCache = (
   } catch (error) {
     next();
   }
+};
+
+export const checkCharacterParams = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): void => {
+  const requiredParams = [
+    'name',
+    'race',
+    'character_class',
+    'features',
+    'languages',
+    'proficiencies',
+    'skills',
+    'level',
+    'speed',
+    'strength',
+    'dexterity',
+    'constitution',
+    'wisdom',
+    'intelligence',
+    'charisma',
+    'max_hp',
+  ];
+  checkParams(requiredParams, req, next);
 };
