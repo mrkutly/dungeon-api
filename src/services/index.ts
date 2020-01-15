@@ -12,6 +12,50 @@ import spellRoutes from './spell/routes';
 import subclassRoutes from './subclass/routes';
 import userRoutes from './user/routes';
 
+import Character from './character/entity';
+import CharacterClass from './character_class/entity';
+import Condition from './condition/entity';
+import Equipment from './equipment/entity';
+import Feature from './feature/entity';
+import Language from './language/entity';
+import MagicSchool from './magic_school/entity';
+import Proficiency from './proficiency/entity';
+import Race from './race/entity';
+import Skill from './skill/entity';
+import Spell from './spell/entity';
+import Subclass from './subclass/entity';
+import User from './user/entity';
+
+export type DungeonEntity = Character |
+  CharacterClass |
+  Condition |
+  Equipment |
+  Feature |
+  Language |
+  MagicSchool |
+  Proficiency |
+  Race |
+  Skill |
+  Spell |
+  Subclass |
+  User;
+
+export const entities = {
+  ['Character' as string]: Character,
+  ['CharacterClass' as string]: CharacterClass,
+  ['Condition' as string]: Condition,
+  ['Equipment' as string]: Equipment,
+  ['Feature' as string]: Feature,
+  ['Language' as string]: Language,
+  ['MagicSchool' as string]: MagicSchool,
+  ['Proficiency' as string]: Proficiency,
+  ['Race' as string]: Race,
+  ['Skill' as string]: Skill,
+  ['Spell' as string]: Spell,
+  ['Subclass' as string]: Subclass,
+  ['User' as string]: User,
+};
+
 
 export default [
   ...characterRoutes,

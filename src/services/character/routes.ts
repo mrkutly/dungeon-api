@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { checkAuthorizationHeader, checkCharacterParams } from '../../middleware/checks';
+import Character, { CharacterParams, characterRelations } from './entity';
 
 const characterRoutes = [
   {
@@ -8,8 +9,11 @@ const characterRoutes = [
     handler: [
       checkAuthorizationHeader,
       async (req: Request, res: Response): Promise<void> => {
-        const characters = req.user.characters || [];
-        res.status(200).json({ characters: characters });
+        const characters = await Character.find({
+          where: { user: req.user },
+          relations: characterRelations
+        });
+        res.status(200).json({ characters });
       }
     ]
   },
@@ -18,7 +22,17 @@ const characterRoutes = [
     method: "post",
     handler: [
       checkAuthorizationHeader,
-      checkCharacterParams
+      checkCharacterParams,
+      async (req: Request, res: Response): Promise<void> => {
+        const character = await Character.createFromCharacterParams({ ...req.body, user: req.user } as CharacterParams);
+
+        if (character instanceof Error || character === undefined) {
+          res.status(500).json({ error: "There was an issue saving the character" });
+          return;
+        }
+
+        res.status(201).json({ character });
+      }
     ]
   }
 ];
