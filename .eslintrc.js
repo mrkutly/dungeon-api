@@ -16,7 +16,7 @@ module.exports = {
         sourceType: "module"
     },
     rules: {
-        "max-len": [2, 100, 2, { ignoreUrls: true }],
+        "max-len": [2, 120, 2, { ignoreUrls: true }],
         "@typescript-eslint/camelcase": 0,
     }
 };

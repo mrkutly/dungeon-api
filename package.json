@@ -18,11 +18,12 @@
     "db:seed": "npx tsc && node dist/utils/seedDatabase.js",
     "dev": "NODE_ENV=development tsc-watch --onSuccess \"node ./dist/server.js\"",
     "console": "NODE_ENV=development tsc-watch --onSuccess \"node --experimental-repl-await ./dist/repl.js\"",
+    "console:test": "NODE_ENV=test tsc-watch --onSuccess \"node --experimental-repl-await ./dist/repl.js\"",
     "build": "npx tsc",
     "start": "npx pm2-runtime start pm2.yml",
     "postinstall": "npm run db:sync",
-    "test": "jest --verbose --forceExit",
-    "test:watch": "jest --verbose --watch --detectOpenHandles"
+    "test": "NODE_ENV=test jest --verbose --forceExit",
+    "test:watch": "NODE_ENV=test jest --verbose --watch --detectOpenHandles"
   },
   "jest": {
     "verbose": true,

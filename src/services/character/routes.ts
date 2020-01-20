@@ -13,6 +13,7 @@ const characterRoutes = [
           where: { user: req.user },
           relations: characterRelations
         });
+
         res.status(200).json({ characters });
       }
     ]
@@ -24,7 +25,10 @@ const characterRoutes = [
       checkAuthorizationHeader,
       checkCharacterParams,
       async (req: Request, res: Response): Promise<void> => {
-        const character = await Character.createFromCharacterParams({ ...req.body, user: req.user } as CharacterParams);
+        const character = await Character.createFromCharacterParams({
+          ...req.body,
+          user: req.user
+        } as CharacterParams);
 
         if (character instanceof Error || character === undefined) {
           res.status(500).json({ error: "There was an issue saving the character" });

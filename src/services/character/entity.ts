@@ -1,5 +1,4 @@
 import {
-  getConnection,
   Entity,
   BaseEntity,
   Column,
@@ -28,39 +27,40 @@ const int2 = process.env.NODE_ENV === 'test' ? 'int' : 'int2';
 const int4 = process.env.NODE_ENV === 'test' ? 'int' : 'int4';
 
 export type CharacterParams = {
-  name: string;
-  race: Race;
   character_class: CharacterClass;
-  user: User;
-  level: number;
-  speed: number;
-  strength: number;
-  dexterity: number;
-  constitution: number;
-  wisdom: number;
-  intelligence: number;
   charisma: number;
-  max_hp: number;
-  features: Feature[];
-  equipment: Equipment[];
-  magic_school: MagicSchool;
-  proficiencies: Proficiency[];
   conditions: Condition[];
+  constitution: number;
+  dexterity: number;
+  equipment: Equipment[];
+  features: Feature[];
+  intelligence: number;
   languages: Language[];
+  level: number;
+  magic_school: MagicSchool;
+  max_hp: number;
+  name: string;
+  proficiencies: Proficiency[];
+  race: Race;
   skills: Skill[];
+  speed: number;
   spells: Spell[];
+  strength: number;
+  user: User;
+  wisdom: number;
 };
 
 export const characterRelations = [
-  "race",
   "character_class",
-  "features",
-  "languages",
-  "spells",
-  "magic_school",
-  "equipment",
   "conditions",
-  "proficiencies"
+  "equipment",
+  "features",
+  "race",
+  "languages",
+  "magic_school",
+  "proficiencies",
+  "skills",
+  "spells",
 ];
 
 @Entity()
@@ -157,23 +157,25 @@ class Character extends BaseEntity {
   static async createFromCharacterParams(params: CharacterParams): Promise<Character | undefined | Error> {
     try {
       const character = new Character();
-      character.name = params.name;
-      character.race = params.race;
       character.character_class = params.character_class;
-      character.features = params.features;
-      character.proficiencies = params.proficiencies;
-      character.languages = params.languages;
-      character.equipment = params.equipment;
-      character.conditions = params.conditions;
-      character.magic_school = params.magic_school;
       character.charisma = params.charisma;
-      character.max_hp = params.max_hp;
-      character.dexterity = params.dexterity;
+      character.conditions = params.conditions;
       character.constitution = params.constitution;
-      character.strength = params.strength;
+      character.dexterity = params.dexterity;
+      character.equipment = params.equipment;
+      character.features = params.features;
       character.intelligence = params.intelligence;
-      character.wisdom = params.wisdom;
+      character.languages = params.languages;
+      character.magic_school = params.magic_school;
+      character.max_hp = params.max_hp;
+      character.name = params.name;
+      character.proficiencies = params.proficiencies;
+      character.race = params.race;
+      character.skills = params.skills;
       character.spells = params.spells;
+      character.strength = params.strength;
+      character.user = params.user;
+      character.wisdom = params.wisdom;
 
       const saved = await character.save();
       return Character.findOne({ where: { id: saved.id }, relations: characterRelations });
@@ -182,6 +184,7 @@ class Character extends BaseEntity {
     }
   }
 }
+
 
 
 export default Character;
