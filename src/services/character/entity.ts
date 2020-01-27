@@ -31,8 +31,10 @@ export type CharacterParams = {
   charisma: number;
   conditions: Condition[];
   constitution: number;
+  current_hp: number;
   dexterity: number;
   equipment: Equipment[];
+  experience: number;
   features: Feature[];
   intelligence: number;
   languages: Language[];
@@ -179,6 +181,72 @@ class Character extends BaseEntity {
 
       const saved = await character.save();
       return Character.findOne({ where: { id: saved.id }, relations: characterRelations });
+    } catch (error) {
+      return error;
+    }
+  }
+
+  async updateFromParams(params: CharacterParams): Promise<Character | Error> {
+    try {
+      this.character_class = params.character_class || this.character_class;
+      this.charisma = params.charisma || this.charisma;
+      this.constitution = params.constitution || this.constitution;
+      this.current_hp = params.current_hp || this.current_hp;
+      this.dexterity = params.dexterity || this.dexterity;
+      this.experience = params.experience || this.experience;
+      this.intelligence = params.intelligence || this.intelligence;
+      this.level = params.level || this.level;
+      this.magic_school = params.magic_school || this.magic_school;
+      this.max_hp = params.max_hp || this.max_hp;
+      this.name = params.name || this.name;
+      this.race = params.race || this.race;
+      this.strength = params.strength || this.strength;
+      this.wisdom = params.wisdom || this.wisdom;
+
+      params.equipment?.forEach((eq) => this.equipment.push(eq));
+
+      params.features?.forEach((feat) => {
+        if (!this.features.find((existing) => existing.id === feat.id)) {
+          this.features.push(feat);
+        }
+      });
+
+      params.languages?.forEach((lang) => {
+        if (!this.languages.find((existing) => existing.id === lang.id)) {
+          this.languages.push(lang);
+        }
+      });
+
+      params.proficiencies?.forEach((prof) => {
+        if (!this.proficiencies.find((existing) => existing.id === prof.id)) {
+          this.proficiencies.push(prof);
+        }
+      });
+
+      params.skills?.forEach((skill) => {
+        if (!this.skills.find((existing) => existing.id === skill.id)) {
+          this.skills.push(skill);
+        }
+      });
+
+      params.spells?.forEach((spell) => {
+        if (!this.spells.find((existing) => existing.id === spell.id)) {
+          this.spells.push(spell);
+        }
+      });
+
+      params.conditions?.forEach((cond) => {
+        if (!this.conditions.find((existing) => existing.id === cond.id)) {
+          this.conditions.push(cond);
+        }
+      });
+
+      const saveResult = await this.save();
+      if (!saveResult.id) {
+        throw new Error('There was a problem saving the character.');
+      }
+
+      return this;
     } catch (error) {
       return error;
     }

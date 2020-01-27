@@ -17,6 +17,6 @@ module.exports = {
     },
     rules: {
         "max-len": [2, 120, 2, { ignoreUrls: true }],
-        "@typescript-eslint/camelcase": 0,
+        "@typescript-eslint/camelcase": 0
     }
 };

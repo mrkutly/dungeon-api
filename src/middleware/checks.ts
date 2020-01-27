@@ -4,6 +4,7 @@ import { HTTP400Error } from "../utils/httpErrors";
 import RedisClient from '../utils/RedisClient';
 import checkParams from '../utils/checkParams';
 import User from '../services/user/entity';
+import Character, { characterRelations } from "../services/character/entity";
 
 export const checkUserParamsPresent = (
   req: Request,
@@ -196,4 +197,88 @@ export const checkCharacterParams = (
     'max_hp',
   ];
   checkParams(requiredParams, req, next);
+};
+
+export const checkCharacterBelongsToUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  try {
+    const { id } = req.params;
+    const character = await Character.findOne({ where: { id, user: req.user }, relations: characterRelations });
+
+    if (typeof character === 'undefined') {
+      throw new HTTP400Error(`Character with id ${id} belonging to logged in user does not exist.`);
+    }
+
+    req.character = character;
+    next();
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const checkCharacterUpdateParams = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): void => {
+  const hasOnes = [
+    'character_class',
+    'magic_school',
+    'race',
+  ];
+  const hasManys = [
+    'conditions',
+    'equipment',
+    'features',
+    'languages',
+    'proficiencies',
+    'skills',
+    'spells'
+  ];
+  const allowedParams = [
+    ...hasOnes,
+    ...hasManys,
+    'charisma',
+    'constitution',
+    'current_hp',
+    'dexterity',
+    'intelligence',
+    'level',
+    'max_hp',
+    'name',
+    'speed',
+    'strength',
+    'wisdom',
+    'experience'
+  ];
+  const reqParams = req.body.character;
+  const notAllowedParams = Object.keys(reqParams).filter(param => !allowedParams.includes(param));
+
+  if (notAllowedParams.length > 0) {
+    throw new HTTP400Error(`Invalid character update params: ${notAllowedParams.join(', ')}`);
+  }
+
+  hasOnes.forEach((prop) => {
+    if (reqParams[prop] && typeof reqParams[prop].id !== 'number') {
+      throw new HTTP400Error(`Invalid character update params: missing property 'id' on parameter ${prop}`);
+    }
+  });
+
+  hasManys.forEach((prop) => {
+    if (!!reqParams[prop]) {
+      if (!Array.isArray(reqParams[prop])) {
+        throw new HTTP400Error(`Invalid character update params: ${prop} should be an array`);
+      }
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      if (reqParams[prop].some((obj: any) => typeof obj.id !== 'number')) {
+        throw new HTTP400Error(`Invalid character update params: missing property 'id' on at least item in ${prop} params`);
+      }
+    }
+
+  });
+  next();
 };

@@ -80,7 +80,7 @@ describe("POST /characters", (): void => {
     done();
   });
 
-  it("sends back an error if the one required param is missing.", async (done): Promise<void> => {
+  it("sends back an error if one required param is missing.", async (done): Promise<void> => {
     const response = await request(app)
       .post('/api/v1/characters')
       .set({ authorization })

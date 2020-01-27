@@ -26,6 +26,20 @@ import Spell from './spell/entity';
 import Subclass from './subclass/entity';
 import User from './user/entity';
 
+export { default as Character } from './character/entity';
+export { default as CharacterClass } from './character_class/entity';
+export { default as Condition } from './condition/entity';
+export { default as Equipment } from './equipment/entity';
+export { default as Feature } from './feature/entity';
+export { default as Language } from './language/entity';
+export { default as MagicSchool } from './magic_school/entity';
+export { default as Proficiency } from './proficiency/entity';
+export { default as Race } from './race/entity';
+export { default as Skill } from './skill/entity';
+export { default as Spell } from './spell/entity';
+export { default as Subclass } from './subclass/entity';
+export { default as User } from './user/entity';
+
 export type DungeonEntity = Character |
   CharacterClass |
   Condition |
