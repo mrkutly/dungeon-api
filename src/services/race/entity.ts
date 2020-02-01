@@ -4,7 +4,9 @@ import {
   PrimaryGeneratedColumn,
   Column,
   Index,
+  OneToMany,
 } from 'typeorm';
+import Character from '../character/entity';
 
 @Entity()
 class Race extends BaseEntity {
@@ -17,6 +19,9 @@ class Race extends BaseEntity {
 
   @Column()
   resource_url!: string;
+
+  @OneToMany(() => Character, character => character.race)
+  characters: Character[];
 }
 
 export default Race;

@@ -16,18 +16,21 @@
     "db:sync-tables": "npx tsc && npx typeorm schema:sync",
     "db:sync": "npx tsc && npx typeorm schema:sync && node dist/utils/seedDatabase.js",
     "db:seed": "npx tsc && node dist/utils/seedDatabase.js",
-    "dev": "tsc-watch --onSuccess \"node ./dist/server.js\"",
+    "dev": "NODE_ENV=development tsc-watch --onSuccess \"node ./dist/server.js\"",
+    "console": "NODE_ENV=development tsc-watch --onSuccess \"node --experimental-repl-await ./dist/repl.js\"",
+    "console:test": "NODE_ENV=test tsc-watch --onSuccess \"node --experimental-repl-await ./dist/repl.js\"",
     "build": "npx tsc",
     "start": "npx pm2-runtime start pm2.yml",
     "postinstall": "npm run db:sync",
-    "test": "jest --verbose --forceExit",
-    "test:watch": "jest --verbose --watch --detectOpenHandles"
+    "test": "NODE_ENV=test jest --detectOpenHandles",
+    "test:watch": "NODE_ENV=test jest --watch --detectOpenHandles"
   },
   "jest": {
     "verbose": true,
     "transform": {
       "^.+\\.tsx?$": "ts-jest"
     },
+    "testTimeout": 10000,
     "testRegex": "(src/.*/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
     "moduleFileExtensions": [
       "ts",
