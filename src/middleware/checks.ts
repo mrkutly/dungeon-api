@@ -208,7 +208,7 @@ export const checkCharacterBelongsToUser = async (
     const { id } = req.params;
     const character = await Character.findOne({ where: { id, user: req.user }, relations: characterRelations });
 
-    if (typeof character === 'undefined') {
+    if (typeof character === 'undefined' || character instanceof Error) {
       throw new HTTP400Error(`Character with id ${id} belonging to logged in user does not exist.`);
     }
 

@@ -251,6 +251,41 @@ class Character extends BaseEntity {
       return error;
     }
   }
+
+  async setFromParams(params: CharacterParams): Promise<Character | Error> {
+    try {
+      this.character_class = params.character_class || this.character_class;
+      this.charisma = params.charisma || this.charisma;
+      this.constitution = params.constitution || this.constitution;
+      this.current_hp = params.current_hp || this.current_hp;
+      this.dexterity = params.dexterity || this.dexterity;
+      this.experience = params.experience || this.experience;
+      this.intelligence = params.intelligence || this.intelligence;
+      this.level = params.level || this.level;
+      this.magic_school = params.magic_school || this.magic_school;
+      this.max_hp = params.max_hp || this.max_hp;
+      this.name = params.name || this.name;
+      this.race = params.race || this.race;
+      this.strength = params.strength || this.strength;
+      this.wisdom = params.wisdom || this.wisdom;
+      this.equipment = params.equipment || this.equipment;
+      this.features = params.features || this.features;
+      this.languages = params.languages || this.languages;
+      this.proficiencies = params.proficiencies || this.proficiencies;
+      this.skills = params.skills || this.skills;
+      this.spells = params.spells || this.spells;
+      this.conditions = params.conditions || this.conditions;
+
+      const saveResult = await this.save();
+      if (!saveResult.id) {
+        throw new Error('There was a problem saving the character.');
+      }
+
+      return this;
+    } catch (error) {
+      return error;
+    }
+  }
 }
 
 

@@ -22,8 +22,8 @@
     "build": "npx tsc",
     "start": "npx pm2-runtime start pm2.yml",
     "postinstall": "npm run db:sync",
-    "test": "NODE_ENV=test jest --verbose --forceExit",
-    "test:watch": "NODE_ENV=test jest --verbose --watch --detectOpenHandles"
+    "test": "NODE_ENV=test jest --detectOpenHandles",
+    "test:watch": "NODE_ENV=test jest --watch --detectOpenHandles"
   },
   "jest": {
     "verbose": true,

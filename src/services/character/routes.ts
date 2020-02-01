@@ -85,6 +85,26 @@ const characterRoutes = [
   },
   {
     path: "/api/v1/characters/:id",
+    method: 'put',
+    handler: [
+      checkAuthorizationHeader,
+      checkCharacterBelongsToUser,
+      checkCharacterUpdateParams,
+      async (req: Request, res: Response): Promise<void> => {
+        const { character } = req;
+        const updated = await character.setFromParams(req.body.character);
+
+        if (updated instanceof Error) {
+          res.status(500).json({ error: "There was an issue saving the character" });
+          return;
+        }
+
+        res.status(200).json({ message: 'successfully updated', character: updated });
+      }
+    ]
+  },
+  {
+    path: "/api/v1/characters/:id",
     method: 'delete',
     handler: [
       checkAuthorizationHeader,
