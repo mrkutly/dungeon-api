@@ -9,12 +9,12 @@ export function IsSecurePassword() {
       target: object.constructor,
       propertyName: propertyName,
       options: ({
-        message: "Password must be at least 12 characters long and contain at least 1 number and 1 special character (!@#$%^&*)."
+        message: "Password must be at least 8 characters long and contain at least 1 number and 1 special character (!@#$%^&*)."
       } as ValidationOptions),
       validator: {
         validate(value: string): boolean {
           const isString = typeof value === "string";
-          const isLongEnough = value.length > 11;
+          const isLongEnough = value.length > 7;
           const containsOneSpecialChar = Boolean(value.match(/.*[!@#\$%\^&\*].*/g));
           const containsOneNumber = Boolean(value.match(/.*[0-9].*/g));
 

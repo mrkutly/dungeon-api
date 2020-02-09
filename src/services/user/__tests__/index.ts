@@ -72,7 +72,7 @@ describe("User Routes", (): void => {
         .send({ email: "fake@email.com", password: "fakepassword%$#" });
 
       expect(response.status).toBe(400);
-      expect(response.body.error).toContain("Password must be at least 12 characters long and contain at least 1 number and 1 special character (!@#$%^&*).");
+      expect(response.body.error).toContain("Password must be at least 8 characters long and contain at least 1 number and 1 special character (!@#$%^&*).");
       done();
     });
 
@@ -82,17 +82,17 @@ describe("User Routes", (): void => {
         .send({ email: "fake@email.com", password: "fakepassword123" });
 
       expect(response.status).toBe(400);
-      expect(response.body.error).toContain("Password must be at least 12 characters long and contain at least 1 number and 1 special character (!@#$%^&*).");
+      expect(response.body.error).toContain("Password must be at least 8 characters long and contain at least 1 number and 1 special character (!@#$%^&*).");
       done();
     });
 
     it('Sends back an error if the password is not long enough', async (done): Promise<void> => {
       const response = await request(app)
         .post('/api/v1/signup')
-        .send({ email: "fake@email.com", password: "fa1#2$3%" });
+        .send({ email: "fake@email.com", password: "fa1#2$3" });
 
       expect(response.status).toBe(400);
-      expect(response.body.error).toBe("Password must be at least 12 characters long and contain at least 1 number and 1 special character (!@#$%^&*).");
+      expect(response.body.error).toBe("Password must be at least 8 characters long and contain at least 1 number and 1 special character (!@#$%^&*).");
       done();
     });
 
@@ -250,7 +250,7 @@ describe("User Routes", (): void => {
         .send({ token: resetToken, password: "abc123" });
 
       expect(response.status).toBe(400);
-      expect(response.body.error).toBe("Password must be at least 12 characters long and contain at least 1 number and 1 special character (!@#$%^&*).");
+      expect(response.body.error).toBe("Password must be at least 8 characters long and contain at least 1 number and 1 special character (!@#$%^&*).");
       done();
     });
 
