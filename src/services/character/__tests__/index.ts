@@ -42,13 +42,13 @@ describe("GET /characters", (): void => {
 
     successfulResponse = await request(app)
       .get('/api/v1/characters')
-      .set('Cookie', [`token=${authorization}`]);
+      .set({ authorization });
   });
 
   it("does not send characters if the auth cookie is not present.", async (done): Promise<void> => {
     const response = await request(app).get('/api/v1/characters');
     expect(response.status).toBe(400);
-    expect(response.body.error).toBe("Missing authorization cookie");
+    expect(response.body.error).toBe("Missing authorization header");
     done();
   });
 

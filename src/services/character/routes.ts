@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
 import Character, { CharacterParams, characterRelations } from './entity';
 import {
-  // checkAuthorizationHeader,
-  checkAuthorizationCookie,
+  checkAuthorizationHeader,
+  // checkAuthorizationCookie,
   checkCharacterParams,
   checkCharacterUpdateParams,
   checkCharacterBelongsToUser
@@ -13,8 +13,8 @@ const characterRoutes = [
     path: "/api/v1/characters",
     method: "get",
     handler: [
-      // checkAuthorizationHeader,
-      checkAuthorizationCookie,
+      checkAuthorizationHeader,
+      // checkAuthorizationCookie,
       async (req: Request, res: Response): Promise<void> => {
         const characters = await Character.find({
           where: { user: req.user },
@@ -29,8 +29,8 @@ const characterRoutes = [
     path: "/api/v1/characters/:id",
     method: "get",
     handler: [
-      // checkAuthorizationHeader,
-      checkAuthorizationCookie,
+      checkAuthorizationHeader,
+      // checkAuthorizationCookie,
       async (req: Request, res: Response): Promise<void> => {
         const character = await Character.findOne({
           where: { user: req.user, id: req.params.id },
@@ -49,8 +49,8 @@ const characterRoutes = [
     path: "/api/v1/characters",
     method: "post",
     handler: [
-      // checkAuthorizationHeader,
-      checkAuthorizationCookie,
+      checkAuthorizationHeader,
+      // checkAuthorizationCookie,
       checkCharacterParams,
       async (req: Request, res: Response): Promise<void> => {
         const character = await Character.createFromCharacterParams({
@@ -71,8 +71,8 @@ const characterRoutes = [
     path: "/api/v1/characters/:id",
     method: 'patch',
     handler: [
-      // checkAuthorizationHeader,
-      checkAuthorizationCookie,
+      checkAuthorizationHeader,
+      // checkAuthorizationCookie,
       checkCharacterBelongsToUser,
       checkCharacterUpdateParams,
       async (req: Request, res: Response): Promise<void> => {
@@ -92,8 +92,8 @@ const characterRoutes = [
     path: "/api/v1/characters/:id",
     method: 'put',
     handler: [
-      // checkAuthorizationHeader,
-      checkAuthorizationCookie,
+      checkAuthorizationHeader,
+      // checkAuthorizationCookie,
       checkCharacterBelongsToUser,
       checkCharacterUpdateParams,
       async (req: Request, res: Response): Promise<void> => {
@@ -113,8 +113,8 @@ const characterRoutes = [
     path: "/api/v1/characters/:id",
     method: 'delete',
     handler: [
-      // checkAuthorizationHeader,
-      checkAuthorizationCookie,
+      checkAuthorizationHeader,
+      // checkAuthorizationCookie,
       checkCharacterBelongsToUser,
       async (req: Request, res: Response): Promise<void> => {
         try {

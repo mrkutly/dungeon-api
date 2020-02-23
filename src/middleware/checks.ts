@@ -70,22 +70,22 @@ export const checkLoginCredentials = async (
   }
 };
 
-export const checkAuthorizationCookie = async (
+export const checkAuthorizationHeader = async (
   req: Request,
   res: Response,
   next: NextFunction
 ): Promise<void> => {
   try {
-    const { token } = req.cookies;
+    const { authorization } = req.headers;
 
-    if (!token) {
-      throw new HTTP400Error('Missing authorization cookie');
+    if (!authorization) {
+      throw new HTTP400Error('Missing authorization header');
     }
 
-    const user = await User.parseFromWebToken(token);
+    const user = await User.parseFromWebToken(authorization);
 
     if (!user) {
-      throw new HTTP400Error('Invalid authorization cookie');
+      throw new HTTP400Error('Invalid authorization header');
     }
 
     req.user = user;

@@ -76,14 +76,14 @@ describe("POST /characters", (): void => {
       .send(characterParams);
 
     expect(response.status).toBe(400);
-    expect(response.body.error).toBe("Missing authorization cookie");
+    expect(response.body.error).toBe("Missing authorization header");
     done();
   });
 
   it("sends back an error if one required param is missing.", async (done): Promise<void> => {
     const response = await request(app)
       .post('/api/v1/characters')
-      .set('Cookie', [`token=${authorization}`])
+      .set({ authorization })
       .send({
         race: characterParams.race,
         character_class: characterParams.character_class,
@@ -106,7 +106,7 @@ describe("POST /characters", (): void => {
   it("sends back an error if the multiple required params are missing.", async (done): Promise<void> => {
     const response = await request(app)
       .post('/api/v1/characters')
-      .set('Cookie', [`token=${authorization}`])
+      .set({ authorization })
       .send({
         character_class: characterParams.character_class,
         level: characterParams.level,
@@ -128,7 +128,7 @@ describe("POST /characters", (): void => {
   it("creates a character and returns it in the response", async (done): Promise<void> => {
     const response: CharacterReponse = await request(app)
       .post('/api/v1/characters')
-      .set('Cookie', [`token=${authorization}`])
+      .set({ authorization })
       .send(characterParams);
 
     const { character } = response.body;
