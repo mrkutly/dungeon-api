@@ -28,6 +28,10 @@ const userRoutes = [
 			async ({ user }: Request, res: Response): Promise<void> => {
 				await user.save();
 				const token = TokenManager.makeToken(user);
+				res.cookie('token', token, {
+					httpOnly: true,
+					maxAge: 1000 * 60 * 60 * 24 * 365,
+				});
 				res.status(201).json({ token });
 			}
 		]
