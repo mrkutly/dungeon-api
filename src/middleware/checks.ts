@@ -70,19 +70,19 @@ export const checkLoginCredentials = async (
   }
 };
 
-export const checkAuthorizationHeader = async (
+export const checkAuthorizationCookie = async (
   req: Request,
   res: Response,
   next: NextFunction
 ): Promise<void> => {
   try {
-    const { authorization } = req.headers;
+    const { token } = req.cookies;
 
-    if (!authorization) {
+    if (!token) {
       throw new HTTP400Error('Missing authorization header');
     }
 
-    const user = await User.parseFromWebToken(authorization);
+    const user = await User.parseFromWebToken(token);
 
     if (!user) {
       throw new HTTP400Error('Invalid authorization header');
@@ -275,7 +275,9 @@ export const checkCharacterUpdateParams = (
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       if (reqParams[prop].some((obj: any) => typeof obj.id !== 'number')) {
-        throw new HTTP400Error(`Invalid character update params: missing property 'id' on at least item in ${prop} params`);
+        throw new HTTP400Error(
+          `Invalid character update params: missing property 'id' on at least item in ${prop} params`
+        );
       }
     }
 

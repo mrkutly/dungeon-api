@@ -1,6 +1,7 @@
 import { Router, Response, Request, NextFunction } from 'express';
 import cors from "cors";
 import parser from "body-parser";
+import cookieParser from 'cookie-parser';
 import compression from "compression";
 import Logger from '../utils/Logger';
 
@@ -11,6 +12,10 @@ export const handleCors = (router: Router): void => {
 export const handleBodyParsing = (router: Router): void => {
   router.use(parser.urlencoded({ extended: true }));
   router.use(parser.json());
+};
+
+export const handleCookieParsing = (router: Router): void => {
+  router.use(cookieParser());
 };
 
 export const handleCompression = (router: Router): void => {

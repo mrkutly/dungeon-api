@@ -40,6 +40,10 @@ const userRoutes = [
 			checkLoginCredentials,
 			async (req: Request, res: Response): Promise<void> => {
 				const token = TokenManager.makeToken(req.user);
+				res.cookie('token', token, {
+					httpOnly: true,
+					maxAge: 1000 * 60 * 60 * 24 * 365,
+				});
 				res.status(200).json({ token });
 			}
 		]

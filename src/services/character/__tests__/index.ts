@@ -42,7 +42,7 @@ describe("GET /characters", (): void => {
 
     successfulResponse = await request(app)
       .get('/api/v1/characters')
-      .set({ authorization });
+      .set('Cookie', [`token=${authorization}`]);
   });
 
   it("does not send characters if the auth header is not present.", async (done): Promise<void> => {

@@ -100,7 +100,7 @@ describe('Character update routes', () => {
     it("does not allow users to update characters that are not theirs.", async (done): Promise<void> => {
       const response = await request(app)
         .patch(`/api/v1/characters/1`)
-        .set({ authorization })
+        .set('Cookie', [`token=${authorization}`])
         .send({ character: { name: "The character formerly known as Rico" } });
 
       expect(response.status).toBe(400);
@@ -111,7 +111,7 @@ describe('Character update routes', () => {
     it("Enforces proper formatting of requests for hasOne relations.", async (done): Promise<void> => {
       const response = await request(app)
         .patch(`/api/v1/characters/${testCharacter.id}`)
-        .set({ authorization })
+        .set('Cookie', [`token=${authorization}`])
         .send({ character: { character_class: 4 } });
 
       expect(response.status).toBe(400);
@@ -122,14 +122,14 @@ describe('Character update routes', () => {
     it("Enforces proper formatting of requests for hasMany relations.", async (done): Promise<void> => {
       let response = await request(app)
         .patch(`/api/v1/characters/${testCharacter.id}`)
-        .set({ authorization })
+        .set('Cookie', [`token=${authorization}`])
         .send({ character: { proficiencies: { id: 4 } } });
 
       expect(response.status).toBe(400);
       expect(response.body.error).toBe("Invalid character update params: proficiencies should be an array");
 
       response = await request(app).patch(`/api/v1/characters/${testCharacter.id}`)
-        .set({ authorization })
+        .set('Cookie', [`token=${authorization}`])
         .send({ character: { proficiencies: [{ missing_id: 4 }] } });
 
       expect(response.status).toBe(400);
@@ -140,7 +140,7 @@ describe('Character update routes', () => {
     it("Updates the character's name.", async (done): Promise<void> => {
       const response = await request(app)
         .patch(`/api/v1/characters/${testCharacter.id}`)
-        .set({ authorization })
+        .set('Cookie', [`token=${authorization}`])
         .send({ character: { name: "The character formerly known as Rico" } });
 
       expect(response.status).toBe(200);
@@ -151,7 +151,7 @@ describe('Character update routes', () => {
     it("Updates the character's stats.", async (done): Promise<void> => {
       const response = await request(app)
         .patch(`/api/v1/characters/${testCharacter.id}`)
-        .set({ authorization })
+        .set('Cookie', [`token=${authorization}`])
         .send({
           character: {
             dexterity: 19,
@@ -185,7 +185,7 @@ describe('Character update routes', () => {
     it("Updates the character's class.", async (done): Promise<void> => {
       const response = await request(app)
         .patch(`/api/v1/characters/${testCharacter.id}`)
-        .set({ authorization })
+        .set('Cookie', [`token=${authorization}`])
         .send({ character: { character_class: { id: 7 } } });
 
       expect(response.status).toBe(200);
@@ -196,7 +196,7 @@ describe('Character update routes', () => {
     it("Updates the character's race.", async (done): Promise<void> => {
       const response = await request(app)
         .patch(`/api/v1/characters/${testCharacter.id}`)
-        .set({ authorization })
+        .set('Cookie', [`token=${authorization}`])
         .send({ character: { race: { id: 7 } } });
 
       expect(response.status).toBe(200);
@@ -207,7 +207,7 @@ describe('Character update routes', () => {
     it("Updates the character's magic school.", async (done): Promise<void> => {
       const response = await request(app)
         .patch(`/api/v1/characters/${testCharacter.id}`)
-        .set({ authorization })
+        .set('Cookie', [`token=${authorization}`])
         .send({ character: { magic_school: { id: 3 } } });
 
       expect(response.status).toBe(200);
@@ -218,7 +218,7 @@ describe('Character update routes', () => {
     it("Adds to the characters features.", async (done): Promise<void> => {
       const response = await request(app)
         .patch(`/api/v1/characters/${testCharacter.id}`)
-        .set({ authorization })
+        .set('Cookie', [`token=${authorization}`])
         .send({ character: { features: [{ id: 10 }] } });
 
       expect(response.status).toBe(200);
@@ -230,7 +230,7 @@ describe('Character update routes', () => {
     it("Adds to the characters languages.", async (done): Promise<void> => {
       const response = await request(app)
         .patch(`/api/v1/characters/${testCharacter.id}`)
-        .set({ authorization })
+        .set('Cookie', [`token=${authorization}`])
         .send({ character: { languages: [{ id: 3 }] } });
 
       expect(response.status).toBe(200);
@@ -242,7 +242,7 @@ describe('Character update routes', () => {
     it("Adds to the characters proficiencies.", async (done): Promise<void> => {
       const response = await request(app)
         .patch(`/api/v1/characters/${testCharacter.id}`)
-        .set({ authorization })
+        .set('Cookie', [`token=${authorization}`])
         .send({ character: { proficiencies: [{ id: 3 }] } });
 
       expect(response.status).toBe(200);
@@ -254,7 +254,7 @@ describe('Character update routes', () => {
     it("Adds to the characters skills.", async (done): Promise<void> => {
       const response = await request(app)
         .patch(`/api/v1/characters/${testCharacter.id}`)
-        .set({ authorization })
+        .set('Cookie', [`token=${authorization}`])
         .send({ character: { skills: [{ id: 3 }] } });
 
       expect(response.status).toBe(200);
@@ -266,7 +266,7 @@ describe('Character update routes', () => {
     it("Adds to the characters equipment.", async (done): Promise<void> => {
       const response = await request(app)
         .patch(`/api/v1/characters/${testCharacter.id}`)
-        .set({ authorization })
+        .set('Cookie', [`token=${authorization}`])
         .send({ character: { equipment: [{ id: 3 }] } });
 
       expect(response.status).toBe(200);
@@ -278,7 +278,7 @@ describe('Character update routes', () => {
     it("Adds to the characters conditions.", async (done): Promise<void> => {
       const response = await request(app)
         .patch(`/api/v1/characters/${testCharacter.id}`)
-        .set({ authorization })
+        .set('Cookie', [`token=${authorization}`])
         .send({ character: { conditions: [{ id: 3 }] } });
 
       expect(response.status).toBe(200);
@@ -290,7 +290,7 @@ describe('Character update routes', () => {
     it("Adds to the characters spells.", async (done): Promise<void> => {
       const response = await request(app)
         .patch(`/api/v1/characters/${testCharacter.id}`)
-        .set({ authorization })
+        .set('Cookie', [`token=${authorization}`])
         .send({ character: { spells: [{ id: 3 }] } });
 
       expect(response.status).toBe(200);
@@ -314,7 +314,7 @@ describe('Character update routes', () => {
     it("does not allow users to update characters that are not theirs.", async (done): Promise<void> => {
       const response = await request(app)
         .put(`/api/v1/characters/1`)
-        .set({ authorization })
+        .set('Cookie', [`token=${authorization}`])
         .send({ character: { name: "The character formerly known as Rico" } });
 
       expect(response.status).toBe(400);
@@ -325,7 +325,7 @@ describe('Character update routes', () => {
     it("Enforces proper formatting of requests for hasOne relations.", async (done): Promise<void> => {
       const response = await request(app)
         .put(`/api/v1/characters/${testCharacter.id}`)
-        .set({ authorization })
+        .set('Cookie', [`token=${authorization}`])
         .send({ character: { character_class: 4 } });
 
       expect(response.status).toBe(400);
@@ -336,14 +336,14 @@ describe('Character update routes', () => {
     it("Enforces proper formatting of requests for hasMany relations.", async (done): Promise<void> => {
       let response = await request(app)
         .put(`/api/v1/characters/${testCharacter.id}`)
-        .set({ authorization })
+        .set('Cookie', [`token=${authorization}`])
         .send({ character: { proficiencies: { id: 4 } } });
 
       expect(response.status).toBe(400);
       expect(response.body.error).toBe("Invalid character update params: proficiencies should be an array");
 
       response = await request(app).put(`/api/v1/characters/${testCharacter.id}`)
-        .set({ authorization })
+        .set('Cookie', [`token=${authorization}`])
         .send({ character: { proficiencies: [{ missing_id: 4 }] } });
 
       expect(response.status).toBe(400);
@@ -354,7 +354,7 @@ describe('Character update routes', () => {
     it("Updates the character's name.", async (done): Promise<void> => {
       const response = await request(app)
         .put(`/api/v1/characters/${testCharacter.id}`)
-        .set({ authorization })
+        .set('Cookie', [`token=${authorization}`])
         .send({ character: { name: "The character formerly known as Rico" } });
 
       expect(response.status).toBe(200);
@@ -365,7 +365,7 @@ describe('Character update routes', () => {
     it("Updates the character's stats.", async (done): Promise<void> => {
       const response = await request(app)
         .put(`/api/v1/characters/${testCharacter.id}`)
-        .set({ authorization })
+        .set('Cookie', [`token=${authorization}`])
         .send({
           character: {
             dexterity: 19,
@@ -399,7 +399,7 @@ describe('Character update routes', () => {
     it("Updates the character's class.", async (done): Promise<void> => {
       const response = await request(app)
         .put(`/api/v1/characters/${testCharacter.id}`)
-        .set({ authorization })
+        .set('Cookie', [`token=${authorization}`])
         .send({ character: { character_class: { id: 7 } } });
 
       expect(response.status).toBe(200);
@@ -410,7 +410,7 @@ describe('Character update routes', () => {
     it("Updates the character's race.", async (done): Promise<void> => {
       const response = await request(app)
         .put(`/api/v1/characters/${testCharacter.id}`)
-        .set({ authorization })
+        .set('Cookie', [`token=${authorization}`])
         .send({ character: { race: { id: 7 } } });
 
       expect(response.status).toBe(200);
@@ -421,7 +421,7 @@ describe('Character update routes', () => {
     it("Updates the character's magic school.", async (done): Promise<void> => {
       const response = await request(app)
         .put(`/api/v1/characters/${testCharacter.id}`)
-        .set({ authorization })
+        .set('Cookie', [`token=${authorization}`])
         .send({ character: { magic_school: { id: 3 } } });
 
       expect(response.status).toBe(200);
@@ -432,7 +432,7 @@ describe('Character update routes', () => {
     it("Sets to the characters features.", async (done): Promise<void> => {
       const response = await request(app)
         .put(`/api/v1/characters/${testCharacter.id}`)
-        .set({ authorization })
+        .set('Cookie', [`token=${authorization}`])
         .send({ character: { features: [{ id: 10 }] } });
 
       expect(response.status).toBe(200);
@@ -444,7 +444,7 @@ describe('Character update routes', () => {
     it("Sets the characters languages.", async (done): Promise<void> => {
       const response = await request(app)
         .put(`/api/v1/characters/${testCharacter.id}`)
-        .set({ authorization })
+        .set('Cookie', [`token=${authorization}`])
         .send({ character: { languages: [{ id: 3 }] } });
 
       expect(response.status).toBe(200);
@@ -456,7 +456,7 @@ describe('Character update routes', () => {
     it("Sets the characters proficiencies.", async (done): Promise<void> => {
       const response = await request(app)
         .put(`/api/v1/characters/${testCharacter.id}`)
-        .set({ authorization })
+        .set('Cookie', [`token=${authorization}`])
         .send({ character: { proficiencies: [{ id: 3 }] } });
 
       expect(response.status).toBe(200);
@@ -468,7 +468,7 @@ describe('Character update routes', () => {
     it("Sets the characters skills.", async (done): Promise<void> => {
       const response = await request(app)
         .put(`/api/v1/characters/${testCharacter.id}`)
-        .set({ authorization })
+        .set('Cookie', [`token=${authorization}`])
         .send({ character: { skills: [{ id: 3 }] } });
 
       expect(response.status).toBe(200);
@@ -480,7 +480,7 @@ describe('Character update routes', () => {
     it("Sets the characters equipment.", async (done): Promise<void> => {
       const response = await request(app)
         .put(`/api/v1/characters/${testCharacter.id}`)
-        .set({ authorization })
+        .set('Cookie', [`token=${authorization}`])
         .send({ character: { equipment: [{ id: 3 }] } });
 
       expect(response.status).toBe(200);
@@ -492,7 +492,7 @@ describe('Character update routes', () => {
     it("Sets the characters conditions.", async (done): Promise<void> => {
       const response = await request(app)
         .put(`/api/v1/characters/${testCharacter.id}`)
-        .set({ authorization })
+        .set('Cookie', [`token=${authorization}`])
         .send({ character: { conditions: [{ id: 3 }] } });
 
       expect(response.status).toBe(200);
@@ -504,7 +504,7 @@ describe('Character update routes', () => {
     it("Sets the characters spells.", async (done): Promise<void> => {
       const response = await request(app)
         .put(`/api/v1/characters/${testCharacter.id}`)
-        .set({ authorization })
+        .set('Cookie', [`token=${authorization}`])
         .send({ character: { spells: [{ id: 3 }] } });
 
       expect(response.status).toBe(200);
