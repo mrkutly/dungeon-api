@@ -70,13 +70,13 @@ describe("POST /characters", (): void => {
     }
   });
 
-  it("does not create the character if the auth header is not present.", async (done): Promise<void> => {
+  it("does not create the character if the auth cookie is not present.", async (done): Promise<void> => {
     const response = await request(app)
       .post('/api/v1/characters')
       .send(characterParams);
 
     expect(response.status).toBe(400);
-    expect(response.body.error).toBe("Missing authorization header");
+    expect(response.body.error).toBe("Missing authorization cookie");
     done();
   });
 

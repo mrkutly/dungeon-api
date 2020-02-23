@@ -79,13 +79,13 @@ export const checkAuthorizationCookie = async (
     const { token } = req.cookies;
 
     if (!token) {
-      throw new HTTP400Error('Missing authorization header');
+      throw new HTTP400Error('Missing authorization cookie');
     }
 
     const user = await User.parseFromWebToken(token);
 
     if (!user) {
-      throw new HTTP400Error('Invalid authorization header');
+      throw new HTTP400Error('Invalid authorization cookie');
     }
 
     req.user = user;

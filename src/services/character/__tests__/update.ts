@@ -87,13 +87,13 @@ describe('Character update routes', () => {
   });
 
   describe("PATCH /characters/:id", (): void => {
-    it("does not update the character if the auth header is not present.", async (done): Promise<void> => {
+    it("does not update the character if the auth cookie is not present.", async (done): Promise<void> => {
       const response = await request(app)
         .patch(`/api/v1/characters/${testCharacter.id}`)
         .send({ character: { name: "The character formerly known as Rico" } });
 
       expect(response.status).toBe(400);
-      expect(response.body.error).toBe("Missing authorization header");
+      expect(response.body.error).toBe("Missing authorization cookie");
       done();
     });
 
@@ -301,13 +301,13 @@ describe('Character update routes', () => {
   });
 
   describe("PUT /characters/:id", (): void => {
-    it("does not update the character if the auth header is not present.", async (done): Promise<void> => {
+    it("does not update the character if the auth cookie is not present.", async (done): Promise<void> => {
       const response = await request(app)
         .put(`/api/v1/characters/${testCharacter.id}`)
         .send({ character: { name: "The character formerly known as Rico" } });
 
       expect(response.status).toBe(400);
-      expect(response.body.error).toBe("Missing authorization header");
+      expect(response.body.error).toBe("Missing authorization cookie");
       done();
     });
 

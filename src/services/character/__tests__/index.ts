@@ -45,10 +45,10 @@ describe("GET /characters", (): void => {
       .set('Cookie', [`token=${authorization}`]);
   });
 
-  it("does not send characters if the auth header is not present.", async (done): Promise<void> => {
+  it("does not send characters if the auth cookie is not present.", async (done): Promise<void> => {
     const response = await request(app).get('/api/v1/characters');
     expect(response.status).toBe(400);
-    expect(response.body.error).toBe("Missing authorization header");
+    expect(response.body.error).toBe("Missing authorization cookie");
     done();
   });
 
