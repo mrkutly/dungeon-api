@@ -2,7 +2,6 @@ import { Request, Response } from 'express';
 import Character, { CharacterParams, characterRelations } from './entity';
 import {
   checkAuthorizationHeader,
-  // checkAuthorizationCookie,
   checkCharacterParams,
   checkCharacterUpdateParams,
   checkCharacterBelongsToUser
@@ -14,7 +13,6 @@ const characterRoutes = [
     method: "get",
     handler: [
       checkAuthorizationHeader,
-      // checkAuthorizationCookie,
       async (req: Request, res: Response): Promise<void> => {
         const characters = await Character.find({
           where: { user: req.user },
@@ -30,7 +28,6 @@ const characterRoutes = [
     method: "get",
     handler: [
       checkAuthorizationHeader,
-      // checkAuthorizationCookie,
       async (req: Request, res: Response): Promise<void> => {
         const character = await Character.findOne({
           where: { user: req.user, id: req.params.id },
@@ -38,7 +35,8 @@ const characterRoutes = [
         });
 
         if (typeof character === 'undefined') {
-          res.status(400).json({ error: `Character not found with id ${req.params.id} belonging to logged in user.` });
+          res.status(400).json({ error: `Character not found.` });
+          return;
         }
 
         res.status(200).json({ character });
@@ -50,7 +48,6 @@ const characterRoutes = [
     method: "post",
     handler: [
       checkAuthorizationHeader,
-      // checkAuthorizationCookie,
       checkCharacterParams,
       async (req: Request, res: Response): Promise<void> => {
         const character = await Character.createFromCharacterParams({
@@ -72,7 +69,6 @@ const characterRoutes = [
     method: 'patch',
     handler: [
       checkAuthorizationHeader,
-      // checkAuthorizationCookie,
       checkCharacterBelongsToUser,
       checkCharacterUpdateParams,
       async (req: Request, res: Response): Promise<void> => {
@@ -93,7 +89,6 @@ const characterRoutes = [
     method: 'put',
     handler: [
       checkAuthorizationHeader,
-      // checkAuthorizationCookie,
       checkCharacterBelongsToUser,
       checkCharacterUpdateParams,
       async (req: Request, res: Response): Promise<void> => {
@@ -114,7 +109,6 @@ const characterRoutes = [
     method: 'delete',
     handler: [
       checkAuthorizationHeader,
-      // checkAuthorizationCookie,
       checkCharacterBelongsToUser,
       async (req: Request, res: Response): Promise<void> => {
         try {
