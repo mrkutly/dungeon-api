@@ -16,7 +16,7 @@ export const sendDndAPIData = async (
     res.status(200).json({ data });
     RedisClient.set(req.path, JSON.stringify({ data }));
   } catch (error) {
-    Logger.data(error);
+    Logger.error(error.stack);
     res.status(408).json({ error: "Request timed out" });
   }
 };
