@@ -8,7 +8,8 @@ import {
 	ManyToOne,
 	JoinColumn,
 	ManyToMany,
-	JoinTable
+	JoinTable,
+	Index
 } from 'typeorm';
 
 import User from '../user/entity';
@@ -74,6 +75,7 @@ class Character extends BaseEntity {
 	@Column()
 	name!: string;
 
+	@Index()
 	@ManyToOne(() => User, (user) => user.characters)
 	user!: User;
 
